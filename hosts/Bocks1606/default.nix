@@ -8,7 +8,7 @@ inputs.nixpkgs.lib.nixosSystem {
     ../../modules/common
     ../../modules/nixos
     {
-      
+      nixpkgs.overlays = overlays;      
     }
   ];
 }

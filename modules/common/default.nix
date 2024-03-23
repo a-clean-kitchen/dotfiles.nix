@@ -1,6 +1,8 @@
 { config, lib, pkgs, ... }: {
 
-  imports = [];
+  imports = [
+    ./git.nix
+  ];
 
   options = {
     user = lib.mkOption {
@@ -24,6 +26,12 @@
       type = lib.types.listOf lib.types.str;
       description = "List of unfree packages to allow.";
       default = [ ];
+    };
+    gui = {
+      enable = lib.mkEnableOption {
+        description = "Enable graphics.";
+        default = false;
+      };
     };
     hostnames = {
       main = lib.mkOption {
