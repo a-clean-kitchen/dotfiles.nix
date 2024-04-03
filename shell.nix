@@ -12,6 +12,7 @@ in mkShell {
     home-manager
     nixd
     nixpkgs-fmt
+    disko
   ];
   shellHook = ''
     export FLAKE="$(pwd)"
