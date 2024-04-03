@@ -1,41 +1,44 @@
-{ config, lib, pkgs, ... }: {
+{ config, lib, pkgs, ... }: 
 
+let
+  inherit (lib) mkOption types mkEnableOption;
+in {
   imports = [
     ./git.nix
   ];
 
   options = {
-    user = lib.mkOption {
-      type = lib.types.str;
+    user = mkOption {
+      type = types.str;
       description = "Primary user of the system";
     };
-    fullName = lib.mkOption {
-      type = lib.types.str;
+    fullName = mkOption {
+      type = types.str;
       description = "Human readable name of the user";
     };
-    dotfilesPath = lib.mkOption {
-      type = lib.types.path;
+    dotfilesPath = mkOption {
+      type = types.path;
       description = "Path of dotfiles repository.";
       default = config.homePath + "/dev/personal/dotfiles";
     };
-    dotfilesRepo = lib.mkOption {
-      type = lib.types.str;
+    dotfilesRepo = mkOption {
+      type = types.str;
       description = "Link to dotfiles repository HTTPS URL.";
     };
-    unfreePackages = lib.mkOption {
-      type = lib.types.listOf lib.types.str;
+    unfreePackages = mkOption {
+      type = types.listOf lib.types.str;
       description = "List of unfree packages to allow.";
       default = [ ];
     };
     gui = {
-      enable = lib.mkEnableOption {
+      enable = mkEnableOption {
         description = "Enable graphics.";
         default = false;
       };
     };
     hostnames = {
-      main = lib.mkOption {
-        type = lib.types.str;
+      main = mkOption {
+        type = types.str;
         description = "Main domain/site.";
       };
     };
@@ -44,6 +47,7 @@
   config = let
     stateVersion = "23.05";
   in {
+    
     # Basic common system packages for all devices
     environment.systemPackages = with pkgs; [ git tldr wget curl ];
 
