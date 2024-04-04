@@ -2,6 +2,6 @@
 
 {
   imports = [
-    ./services
+    ./sshd.nix 
   ];
 }
