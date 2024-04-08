@@ -9,16 +9,21 @@ inputs.nixpkgs.lib.nixosSystem {
     ../../modules/common
     ../../modules/nixos
     {
+      server = true;
       nixpkgs.overlays = overlays;      
       users.users.root.openssh.authorizedKeys.keys = [
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMQcdy3fe9wP0zmx/TMPcZ3r4b38sitxg3ieTSkPbvju"
       ];
       services.openssh.enable = true;
-      networking.hostname = "DeskBocks";
+      networking.hostName = "DeskBocks";
       disko = {
         enableConfig = true;
         devices = (import ../../disks/root.nix { disk = "/dev/sda"; });
       };
+      boot.initrd.availableKernelModules = [ "ahci" "xhci_pci" "usbhid" "usb_storage" "sd_mod" "sdhci_pci" ];
+      boot.initrd.kernelModules = [ ];
+      boot.kernelModules = [ "kvm-intel" ];
+      boot.extraModulePackages = [ ];
     }
   ];
 }
