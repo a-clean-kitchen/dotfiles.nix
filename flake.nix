@@ -33,7 +33,7 @@
         DeskBocks = import ./hosts/DeskBocks { inherit inputs globals overlays; };  
       };
       
-      diskoConfigurations = { root = import ./disks/root.nix; };
+      diskoConfigurations = { root = outputs.nixosConfigurations.DeskBocks.config; };
 
       nixdEntry = (lib.nixosSystem {
         system = "x86_64-linux";
