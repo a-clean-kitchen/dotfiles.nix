@@ -8,7 +8,7 @@
         partitions = {
           # Boot partition
           ESP = rec {
-            size = "512MiB";
+            size = "512M";
             type = "EF00";
             label = "boot";
             device = "/dev/disk/by-label/${label}";
