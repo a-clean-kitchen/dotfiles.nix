@@ -26,14 +26,14 @@
       pkgs = import nixpkgs {
         inherit system;
       };
-    in {
+    in rec {
       devShells."${system}" = { default = import ./shell.nix { inherit pkgs; }; };
 
       nixosConfigurations = {
         DeskBocks = import ./hosts/DeskBocks { inherit inputs globals overlays; };  
       };
       
-      diskoConfigurations = { root = outputs.nixosConfigurations.DeskBocks.config; };
+      diskoConfigurations = { root = nixosConfigurations.DeskBocks.config; };
 
       nixdEntry = (lib.nixosSystem {
         system = "x86_64-linux";
