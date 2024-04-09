@@ -1,6 +1,6 @@
 { disk, ... }: {
   disk = {
-    boot = {
+    sda = {
       type = "disk";
       device = "/dev/sda";
       content = {
