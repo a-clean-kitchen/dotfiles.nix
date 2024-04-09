@@ -2,7 +2,7 @@
   disk = {
     boot = {
       type = "disk";
-      device = disk;
+      device = "/dev/sda";
       content = {
         type = "gpt";
         partitions = {
