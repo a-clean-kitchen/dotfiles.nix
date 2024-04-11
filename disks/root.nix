@@ -1,8 +1,8 @@
 { disk, ... }: {
   disk = {
-    sda = {
+    my-disk = {
       type = "disk";
-      device = "/dev/sda";
+      device = "${disk}";
       content = {
         type = "gpt";
         partitions = {
@@ -11,24 +11,24 @@
             size = "512M";
             type = "EF00";
             label = "boot";
-            device = "/dev/disk/by-label/${label}";
+            # device = "/dev/disk/by-label/boot";
             content = {
               type = "filesystem";
               format = "vfat";
               mountpoint = "/boot";
-              extraArgs = [ "-n ${label}" ];
+              extraArgs = [ "-n boot" ];
             };
           };
           # Root partition ext4
           root = rec {
             size = "100%";
             label = "nixos";
-            device = "/dev/disk/by-label/${label}";
+            # device = "/dev/disk/by-label/nixos";
             content = {
               type = "filesystem";
               format = "ext4";
               mountpoint = "/";
-              extraArgs = [ "-L ${label}" ];
+              extraArgs = [ "-L nixos" ];
             };
           };
         };

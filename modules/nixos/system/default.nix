@@ -2,6 +2,7 @@
 
 {
   imports = [
+    ./doas.nix
     ./user.nix
   ];
 

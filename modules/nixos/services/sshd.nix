@@ -22,7 +22,6 @@
       settings = {
         GatewayPorts = "no";
         X11Forwarding = false;
-        PasswordAuthentication = false;
         PermitRootLogin = config.permitRootLogin;
       };
     };

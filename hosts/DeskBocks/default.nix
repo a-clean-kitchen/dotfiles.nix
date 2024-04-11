@@ -24,6 +24,19 @@ inputs.nixpkgs.lib.nixosSystem {
       boot.initrd.kernelModules = [ ];
       boot.kernelModules = [ "kvm-intel" ];
       boot.extraModulePackages = [ ];
+      passwordHash = inputs.nixpkgs.lib.fileContents ../../misc/password.sha512;
+
+#       fileSystems."/" =
+#         { device = "/dev/disk/by-label/nixos";
+#           fsType = "ext4";
+#         };
+# 
+#       fileSystems."/boot/efi" =
+#         { device = "/dev/disk/by-label/boot";
+#           fsType = "vfat";
+#         };
+
+
     }
   ];
 }
