@@ -11,7 +11,7 @@ inputs.nixpkgs.lib.nixosSystem {
     {
       server = true;
       nixpkgs.overlays = overlays;      
-      users.users.root.openssh.authorizedKeys.keys = [
+      publicKeys = [
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMQcdy3fe9wP0zmx/TMPcZ3r4b38sitxg3ieTSkPbvju"
       ];
       services.openssh.enable = true;
@@ -25,18 +25,6 @@ inputs.nixpkgs.lib.nixosSystem {
       boot.kernelModules = [ "kvm-intel" ];
       boot.extraModulePackages = [ ];
       passwordHash = inputs.nixpkgs.lib.fileContents ../../misc/password.sha512;
-
-#       fileSystems."/" =
-#         { device = "/dev/disk/by-label/nixos";
-#           fsType = "ext4";
-#         };
-# 
-#       fileSystems."/boot/efi" =
-#         { device = "/dev/disk/by-label/boot";
-#           fsType = "vfat";
-#         };
-
-
     }
   ];
 }
