@@ -18,7 +18,7 @@ inputs.nixpkgs.lib.nixosSystem {
       networking.hostName = "DeskBocks";
      
       # Boot from a usb
-      # Set password for root
+      # Set password for root: sudo -s; passwd
       # nix run github:nix-community/nixos-anywhere -- --flake .#DeskBocks -L root@ip.or.host.name
       disko = {
         enableConfig = true;
