@@ -46,7 +46,7 @@
         specialArgs = {
           inherit pkgs;
         };
-      }) // {lib = lib; builtins = builtins;};
+      }).options // {lib = lib; builtins = builtins;};
 
     };
 
