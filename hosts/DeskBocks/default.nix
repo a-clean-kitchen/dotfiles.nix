@@ -16,14 +16,22 @@ inputs.nixpkgs.lib.nixosSystem {
       ];
       services.openssh.enable = true;
       networking.hostName = "DeskBocks";
+     
+      # Boot from a usb
+      # Set password for root
+      # nix run github:nix-community/nixos-anywhere -- --flake .#DeskBocks -L root@ip.or.host.name
       disko = {
         enableConfig = true;
         devices = (import ../../disks/root.nix { disk = "/dev/sda"; });
       };
-      boot.initrd.availableKernelModules = [ "ahci" "xhci_pci" "usbhid" "usb_storage" "sd_mod" "sdhci_pci" ];
-      boot.initrd.kernelModules = [ ];
+
+      # I will never touch these
+      boot.initrd.availableKernelModules = 
+        [ "ahci" "xhci_pci" "usbhid" "usb_storage" "sd_mod" "sdhci_pci" ];
+
       boot.kernelModules = [ "kvm-intel" ];
-      boot.extraModulePackages = [ ];
+
+      # A key of sorts
       passwordHash = inputs.nixpkgs.lib.fileContents ../../misc/password.sha512;
     }
   ];
