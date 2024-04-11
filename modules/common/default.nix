@@ -16,6 +16,14 @@ in {
       type = types.str;
       description = "Human readable name of the user";
     };
+    homePath = lib.mkOption {
+      type = lib.types.path;
+      description = "Path of user's home directory.";
+      default = builtins.toPath (if pkgs.stdenv.isDarwin then
+        "/Users/${config.user}"
+      else
+        "/home/${config.user}");
+    };
     dotfilesPath = mkOption {
       type = types.path;
       description = "Path of dotfiles repository.";

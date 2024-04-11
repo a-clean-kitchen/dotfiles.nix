@@ -20,20 +20,23 @@
       overlays = [];
 
       # Extend lib with personal functions
-      lib = nixpkgs.lib;#.extend
-        #(self: { my = import ./lib { inherit pkgs inputs; lib = self; }; });
+      lib = nixpkgs.lib.extend
+        (self: super: { my = import ./lib { inherit pkgs inputs; lib = self; }; });
 
       pkgs = import nixpkgs {
         inherit system;
       };
-    in {
+    in rec {
       devShells."${system}" = { default = import ./shell.nix { inherit pkgs; }; };
 
       nixosConfigurations = {
-        Bocks1606 = import ./hosts/Bocks1606 { inherit inputs globals overlays; };  
+        DeskBocks = import ./hosts/DeskBocks { inherit inputs globals overlays; };  
       };
+      
+      diskoConfigurations = { root = nixosConfigurations.DeskBocks.config; };
 
-      nixdEntry = (lib.evalModules {
+      nixdEntry = (lib.nixosSystem {
+        system = "x86_64-linux";
         modules = [
           globals
           inputs.home-manager.nixosModules.home-manager
@@ -43,7 +46,7 @@
         specialArgs = {
           inherit pkgs;
         };
-      }).options // {lib = lib; builtins = builtins;};
+      }) // {lib = lib; builtins = builtins;};
 
     };
 
@@ -52,6 +55,11 @@
 
     home-manager = {
       url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    disko = {
+      url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
