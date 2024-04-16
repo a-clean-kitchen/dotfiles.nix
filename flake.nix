@@ -11,7 +11,6 @@
         dotfilesRepo = "https://github.com/a-clean-kitchen/dotfiles.nix";
         hostnames = {
           main = domain;
-          # db = "db.${domain}"
         };
       };
 
@@ -27,14 +26,20 @@
         inherit system;
       };
     in rec {
+      # nix-shell
       devShells."${system}" = { default = import ./shell.nix { inherit pkgs; }; };
 
       nixosConfigurations = {
         DeskBocks = import ./hosts/DeskBocks { inherit inputs globals overlays; };  
       };
       
-      diskoConfigurations = { root = nixosConfigurations.DeskBocks.config; };
+      # diskoConfigurations = { root = nixosConfigurations.DeskBocks.config; };
 
+      homeConfigurations = {
+        DeskBocks = nixosConfigurations.DeskBocks.config.home-manager.users.${globals.user};
+      };
+
+      # This is where I'm having nixd get all it's facts from
       nixdEntry = (lib.nixosSystem {
         system = "x86_64-linux";
         modules = [

@@ -9,6 +9,9 @@ inputs.nixpkgs.lib.nixosSystem {
     ../../modules/common
     ../../modules/nixos
     {
+      dotfiles.enable = true;
+      gui.enable = true;
+      
       server = true;
       nixpkgs.overlays = overlays;      
       publicKeys = [
