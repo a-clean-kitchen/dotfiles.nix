@@ -7,6 +7,7 @@ in {
     ./git.nix
     ./repos
     ./shell
+    ./applications
   ];
 
   options = {

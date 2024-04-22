@@ -15,9 +15,8 @@ in {
         enable = true;
         extraConfig = ''
           $terminal = kitty
-          $fileManager = dolphin
-          $menu = wofi --show drun
 
+          exec-once = waybar
           # Some default env vars.
           env = XCURSOR_SIZE,24
           env = QT_QPA_PLATFORMTHEME,qt5ct # change to qt6ct if you have that
@@ -40,50 +39,30 @@ in {
           }
 
           general {
-              # See https://wiki.hyprland.org/Configuring/Variables/ for more
-
-              gaps_in = 5
-              gaps_out = 20
-              border_size = 2
-              col.active_border = rgba(33ccffee) rgba(00ff99ee) 45deg
-              col.inactive_border = rgba(595959aa)
-
-              layout = dwindle
-
-              # Please see https://wiki.hyprland.org/Configuring/Tearing/ before you turn this on
-              allow_tearing = false
+              gaps_in=8
+              gaps_out=15
+              border_size=5
+              col.active_border=0xfff5c2e7
+              col.inactive_border=0xff45475a
+              apply_sens_to_raw=0 # whether to apply the sensitivity to raw input (e.g. used by games where you aim using your mouse)
           }
 
           decoration {
-              # See https://wiki.hyprland.org/Configuring/Variables/ for more
-
-              rounding = 10
-              
-              blur {
-                  enabled = true
-                  size = 3
-                  passes = 1
-              }
-
-              drop_shadow = yes
-              shadow_range = 4
-              shadow_render_power = 3
-              col.shadow = rgba(1a1a1aee)
+              drop_shadow = true
+              shadow_range=100
+              shadow_render_power=5
+              col.shadow= 0x33000000
+              col.shadow_inactive=0x22000000
+              rounding=15
           }
 
           animations {
               enabled = yes
-
-              # Some default animations, see https://wiki.hyprland.org/Configuring/Animations/ for more
-
-              bezier = myBezier, 0.05, 0.9, 0.1, 1.05
-
-              animation = windows, 1, 7, myBezier
-              animation = windowsOut, 1, 7, default, popin 80%
-              animation = border, 1, 10, default
-              animation = borderangle, 1, 8, default
-              animation = fade, 1, 7, default
-              animation = workspaces, 1, 6, default
+              bezier=overshot,0.13,0.99,0.29,1.1
+              animation=windows,1,4,overshot,slide
+              animation=border,1,10,default
+              animation=fade,1,10,default
+              animation=workspaces,1,6,overshot,slidevert
           }
 
           dwindle {
@@ -102,23 +81,6 @@ in {
               workspace_swipe = off
           }
 
-          misc {
-              # See https://wiki.hyprland.org/Configuring/Variables/ for more
-              force_default_wallpaper = -1 # Set to 0 or 1 to disable the anime mascot wallpapers
-          }
-
-          # Example per-device config
-          # See https://wiki.hyprland.org/Configuring/Keywords/#per-device-input-configs for more
-          device {
-              name = epic-mouse-v1
-              sensitivity = -0.5
-          }
-
-          # Example windowrule v1
-          # windowrule = float, ^(kitty)$
-          # Example windowrule v2
-          # windowrulev2 = float,class:^(kitty)$,title:^(kitty)$
-          # See https://wiki.hyprland.org/Configuring/Window-Rules/ for more
           windowrulev2 = suppressevent maximize, class:.* # You'll probably like this.
 
 
@@ -129,9 +91,7 @@ in {
           bind = $mainMod, Q, exec, $terminal
           bind = $mainMod, C, killactive, 
           bind = $mainMod, M, exit, 
-          bind = $mainMod, E, exec, $fileManager
           bind = $mainMod, V, togglefloating, 
-          bind = $mainMod, R, exec, $menu
           bind = $mainMod, P, pseudo, # dwindle
           bind = $mainMod, J, togglesplit, # dwindle
 
@@ -178,7 +138,7 @@ in {
           bindm = $mainMod, mouse:273, resizewindow
         '';
         systemd = {
-          enable = true;
+          enable = false;
         };
       };
     };
