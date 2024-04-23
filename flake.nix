@@ -16,7 +16,9 @@
 
       system = "x86_64-linux";
       
-      overlays = [];
+      overlays = [
+        (import ./overlays/nvim4.nix inputs)
+      ];
 
       # Extend lib with personal functions
       lib = nixpkgs.lib.extend
@@ -75,6 +77,7 @@
 
     nvim4 = {
       url = "github:a-clean-kitchen/nvim4";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 }
