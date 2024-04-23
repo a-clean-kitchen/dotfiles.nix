@@ -4,11 +4,14 @@ let
   inherit (lib) mkIf;
 in {
   config = mkIf (config.gui.enable) {
+    environment.systemPackages = with pkgs; [
+      fzf
+    ];
     services.greetd = {
       enable = true;
       settings = {
           default_session = {
-            command = "${pkgs.greetd.tuigreet}/bin/tuigreet -w 40 -t --cmd fish";
+            command = "${pkgs.greetd.tuigreet}/bin/tuigreet -w 40 -t --cmd Hyprland";
           };
         };
     };

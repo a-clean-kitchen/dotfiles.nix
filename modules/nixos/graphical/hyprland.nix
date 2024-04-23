@@ -5,6 +5,9 @@ let
 in {
   imports = [ ];
   config = lib.mkIf config.gui.enable {
+    environment.systemPackages = with pkgs; [
+      fzf
+    ];
     hardware.opengl.enable = mkDefault true;
     security.polkit.enable = mkDefault true;
     programs = {
@@ -138,7 +141,7 @@ in {
           bindm = $mainMod, mouse:273, resizewindow
         '';
         systemd = {
-          enable = false;
+          enable = true;
         };
       };
     };
