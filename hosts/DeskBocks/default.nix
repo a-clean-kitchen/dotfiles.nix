@@ -9,34 +9,33 @@ inputs.nixpkgs.lib.nixosSystem {
     ../../modules/common
     ../../modules/nixos
     {
+      dotfiles.enable = true;
+      gui.enable = true;
+      
       server = true;
       nixpkgs.overlays = overlays;      
-      users.users.root.openssh.authorizedKeys.keys = [
+      publicKeys = [
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMQcdy3fe9wP0zmx/TMPcZ3r4b38sitxg3ieTSkPbvju"
       ];
       services.openssh.enable = true;
       networking.hostName = "DeskBocks";
+     
+      # Boot from a usb
+      # Set password for root: sudo -s; passwd
+      # nix run github:nix-community/nixos-anywhere -- --flake .#DeskBocks -L root@ip.or.host.name
       disko = {
         enableConfig = true;
         devices = (import ../../disks/root.nix { disk = "/dev/sda"; });
       };
-      boot.initrd.availableKernelModules = [ "ahci" "xhci_pci" "usbhid" "usb_storage" "sd_mod" "sdhci_pci" ];
-      boot.initrd.kernelModules = [ ];
+
+      # I will never touch these
+      boot.initrd.availableKernelModules = 
+        [ "ahci" "xhci_pci" "usbhid" "usb_storage" "sd_mod" "sdhci_pci" ];
+
       boot.kernelModules = [ "kvm-intel" ];
-      boot.extraModulePackages = [ ];
+
+      # A key of sorts
       passwordHash = inputs.nixpkgs.lib.fileContents ../../misc/password.sha512;
-
-#       fileSystems."/" =
-#         { device = "/dev/disk/by-label/nixos";
-#           fsType = "ext4";
-#         };
-# 
-#       fileSystems."/boot/efi" =
-#         { device = "/dev/disk/by-label/boot";
-#           fsType = "vfat";
-#         };
-
-
     }
   ];
 }

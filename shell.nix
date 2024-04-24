@@ -10,7 +10,6 @@ in mkShell {
     git
     nixos-rebuild
     home-manager
-    nixd
     nixpkgs-fmt
     disko
   ];

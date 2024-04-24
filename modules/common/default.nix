@@ -5,6 +5,9 @@ let
 in {
   imports = [
     ./git.nix
+    ./repos
+    ./shell
+    ./applications
   ];
 
   options = {
@@ -27,7 +30,7 @@ in {
     dotfilesPath = mkOption {
       type = types.path;
       description = "Path of dotfiles repository.";
-      default = config.homePath + "/dev/personal/dotfiles";
+      default = config.homePath + "/wksp/dotfiles";
     };
     dotfilesRepo = mkOption {
       type = types.str;
