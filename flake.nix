@@ -77,7 +77,7 @@
 
     nvim4 = {
       url = "github:a-clean-kitchen/nvim4";
-      inputs.nixpkgs.follows = "nixpkgs";
+      # inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 }

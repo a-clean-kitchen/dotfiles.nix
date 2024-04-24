@@ -20,6 +20,11 @@ in
       programs.kitty = {
         enable = true;
         shellIntegration.enableFishIntegration = true;
+        theme = "Catppuccin-Mocha";
+        settings = {
+          window_padding_width = 15;
+          font_size = 12;
+        };
       };
     };
   };
