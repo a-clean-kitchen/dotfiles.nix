@@ -35,6 +35,9 @@ inputs.nixpkgs.lib.nixosSystem {
 
       boot.kernelModules = [ "kvm-intel" ];
 
+      # he just a baby :,)
+      nix.settings.cores = 2;
+
       # A key of sorts
       passwordHash = inputs.nixpkgs.lib.fileContents ../../misc/password.sha512;
     }

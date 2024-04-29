@@ -69,9 +69,11 @@
   };
 
   nix = {
-
     # For security, only allow specific users
-    settings.allowed-users = [ "@wheel" config.user ];
+    settings = {
+      allowed-users = [ "@wheel" config.user ];
+      trusted-users = [ "root" config.user ];
+    };
 
     # Enable features in Nix commands
     extraOptions = ''
