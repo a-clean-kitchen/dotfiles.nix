@@ -2,7 +2,10 @@
 
 {
   imports = [
+    ./wifi.nix
     ./server.nix
+    # ./networking.nix
+    ./presets
   ];
 
   options = {

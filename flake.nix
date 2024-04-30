@@ -33,6 +33,7 @@
 
       nixosConfigurations = {
         DeskBocks = import ./hosts/DeskBocks { inherit inputs globals overlays; };  
+        Junker = import ./hosts/Junker { inherit inputs globals overlays; };
       };
       
       # diskoConfigurations = { root = nixosConfigurations.DeskBocks.config; };

@@ -23,7 +23,7 @@ in
         theme = "Catppuccin-Mocha";
         settings = {
           window_padding_width = 15;
-          font_size = 12;
+          font_size = 11;
         };
       };
     };

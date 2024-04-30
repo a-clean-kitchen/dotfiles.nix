@@ -1,3 +1,4 @@
+
 { inputs, globals, overlays, ... }:
 
 inputs.nixpkgs.lib.nixosSystem {
@@ -11,13 +12,13 @@ inputs.nixpkgs.lib.nixosSystem {
     {
       dotfiles.enable = true;
       
-      server = true;
+      laptop = true;
       nixpkgs.overlays = overlays;      
       publicKeys = [
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMQcdy3fe9wP0zmx/TMPcZ3r4b38sitxg3ieTSkPbvju"
       ];
       services.openssh.enable = true;
-      networking.hostName = "deskbocks";
+      networking.hostName = "junker";
      
       # Boot from a usb
       # Set password for root: sudo -s; passwd
@@ -29,10 +30,14 @@ inputs.nixpkgs.lib.nixosSystem {
 
       # I will never touch these
       boot.initrd.availableKernelModules = 
-        [ "ahci" "xhci_pci" "usbhid" "usb_storage" "sd_mod" "sdhci_pci" ];
+        [ "ahci" "xhci_pci" "usb_storage" "sd_mod" ];
 
       boot.kernelModules = [ "kvm-intel" ];
 
+      # he just a baby :,)
+      nix.settings.cores = 2;
+
+      hardware.enableRedistributableFirmware = true;
       # A key of sorts
       passwordHash = inputs.nixpkgs.lib.fileContents ../../misc/password.sha512;
     }
