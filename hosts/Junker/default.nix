@@ -11,9 +11,8 @@ inputs.nixpkgs.lib.nixosSystem {
     ../../modules/nixos
     {
       dotfiles.enable = true;
-      gui.enable = true;
       
-      server = true;
+      laptop = true;
       nixpkgs.overlays = overlays;      
       publicKeys = [
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMQcdy3fe9wP0zmx/TMPcZ3r4b38sitxg3ieTSkPbvju"
@@ -38,6 +37,7 @@ inputs.nixpkgs.lib.nixosSystem {
       # he just a baby :,)
       nix.settings.cores = 2;
 
+      hardware.enableRedistributableFirmware = true;
       # A key of sorts
       passwordHash = inputs.nixpkgs.lib.fileContents ../../misc/password.sha512;
     }
