@@ -10,7 +10,8 @@ inputs.nixpkgs.lib.nixosSystem {
     ../../modules/nixos
     {
       dotfiles.enable = true;
-      
+      portfolio.enable = true;
+
       server = true;
       nixpkgs.overlays = overlays;      
       publicKeys = [
