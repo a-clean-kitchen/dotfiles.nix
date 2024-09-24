@@ -18,6 +18,7 @@
       
       overlays = [
         (import ./overlays/nvim4.nix inputs)
+        (import ./overlays/swww.nix inputs)
       ];
 
       # Extend lib with personal functions
@@ -78,7 +79,12 @@
 
     nvim4 = {
       url = "github:a-clean-kitchen/nvim4";
-      # inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    swww = {
+      url = "github:a-clean-kitchen/swww";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 }
