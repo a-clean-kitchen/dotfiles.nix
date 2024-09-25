@@ -78,7 +78,7 @@
     };
 
     nvim4 = {
-      url = "github:a-clean-kitchen/nvim4";
+      url = "github:a-clean-kitchen/nvim4/dynamic-theme";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
