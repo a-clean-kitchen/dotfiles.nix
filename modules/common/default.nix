@@ -75,7 +75,11 @@ in {
       builtins.elem (lib.getName pkg) config.unfreePackages;
 
     # Pin a state version to prevent warnings
-    home-manager.users.${config.user}.home.stateVersion = stateVersion;
+    home-manager.users.${config.user} = {
+      home.stateVersion = stateVersion;
+      programs.home-manager.enable = true;
+    };
+
     home-manager.users.root.home.stateVersion = stateVersion;
   };
 }
