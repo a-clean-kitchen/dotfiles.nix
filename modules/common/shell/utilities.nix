@@ -6,6 +6,9 @@
       home.packages = with pkgs; [
         # JSON stuff
         jq
+
+        # find it 
+        ripgrep
       ];
     };
   };
