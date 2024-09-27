@@ -47,7 +47,7 @@ in {
               border_size=5
               col.active_border=0xfff5c2e7
               col.inactive_border=0xff45475a
-              apply_sens_to_raw=0 # whether to apply the sensitivity to raw input (e.g. used by games where you aim using your mouse)
+              # apply_sens_to_raw=0 # whether to apply the sensitivity to raw input (e.g. used by games where you aim using your mouse)
           }
 
           decoration {
@@ -76,7 +76,7 @@ in {
 
           master {
               # See https://wiki.hyprland.org/Configuring/Master-Layout/ for more
-              new_is_master = true
+              # new_is_master = true
           }
 
           gestures {
