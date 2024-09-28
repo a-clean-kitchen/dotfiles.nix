@@ -76,6 +76,7 @@ in {
 
     # Pin a state version to prevent warnings
     home-manager.users.${config.user} = {
+      # act
       home.stateVersion = stateVersion;
       programs.home-manager.enable = true;
     };

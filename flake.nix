@@ -4,7 +4,7 @@
   outputs = inputs @ { self, nixpkgs, ... }: 
     let
       globals = let domain = "quade.dev";
-      in rec {
+      in {
         user = "qm";
         fullName = "Quade Mashaw";
         gitName = "a-clean-kitchen";
@@ -28,21 +28,44 @@
       pkgs = import nixpkgs {
         inherit system;
       };
+
+      mkHomeConfig = {
+        username ? globals.user,
+        system ? "x86_64-linux",
+        nixpkgs ? inputs.nixpkgs,
+        baseModules ? [
+          {
+            home = {
+              sessionVariables = {
+                NIX_PATH = "nixpkgs=${nixpkgs}";
+              };
+            };
+          }
+        ],
+        extraModules ? []
+      }: 
+        inputs.home-manager.lib.homeManagerConfiguration {
+          pkgs = import nixpkgs {
+            inherit system;
+          };
+          modules = baseModules ++ extraModules;
+        };
     in rec {
       # nix-shell
       devShells."${system}" = { default = import ./shell.nix { inherit pkgs; }; };
 
       nixosConfigurations = {
         DeskBocks = import ./hosts/DeskBocks { inherit inputs globals overlays; };  
-        Junker = import ./hosts/Junker { inherit inputs globals overlays; };
+        junker = import ./hosts/Junker { inherit inputs globals overlays; };
       };
       
       # diskoConfigurations = { root = nixosConfigurations.DeskBocks.config; };
 
       homeConfigurations = {
         DeskBocks = nixosConfigurations.DeskBocks.config.home-manager.users.${globals.user};
-        junker = nixosConfigurations.Junker.config.home-manager.users.${globals.user};
-        "${globals.user}@junker" = nixosConfigurations.Junker.config.home-manager.users.${globals.user};
+        "${globals.user}@junker" = mkHomeConfig {
+          extraModules = [ nixosConfigurations.junker.config.home-manager.users.${globals.user} ];
+        };
       };
 
       # This is where I'm having nixd get all it's facts from
