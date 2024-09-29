@@ -3,6 +3,11 @@
 {
   config = lib.mkIf pkgs.stdenv.isLinux {
 
+    home-manager.users.${config.user} = {
+      home.packages = with pkgs; [
+        doas
+      ];
+    };
     security = {
       sudo = {
         enable = true;

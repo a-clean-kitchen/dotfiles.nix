@@ -1,14 +1,13 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, inputs, ... }:
 
 let
   inherit (lib) mkDefault;
 in {
-  imports = [ ];
   config = lib.mkIf config.gui.enable {
     environment.systemPackages = with pkgs; [
       fzf
     ];
-    hardware.opengl.enable = mkDefault true;
+    hardware.graphics.enable = mkDefault true;
     security.polkit.enable = mkDefault true;
     programs = {
       dconf.enable = mkDefault true;
@@ -19,7 +18,6 @@ in {
         extraConfig = ''
           $terminal = kitty
 
-          exec-once = waybar
           # Some default env vars.
           env = XCURSOR_SIZE,24
           env = QT_QPA_PLATFORMTHEME,qt5ct # change to qt6ct if you have that
