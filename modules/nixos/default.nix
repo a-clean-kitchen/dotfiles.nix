@@ -2,6 +2,7 @@
 
 {
   imports = [
+    ./other
     ./system
     ./graphical
     ./hardware

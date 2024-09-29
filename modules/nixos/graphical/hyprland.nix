@@ -1,9 +1,19 @@
 { config, lib, pkgs, inputs, ... }:
 
 let
-  inherit (lib) mkDefault;
+  cfg = config.graphical.hyprland;
+
+  inherit (lib) mkIf mkDefault mkOption types;
 in {
-  config = lib.mkIf config.gui.enable {
+  options.graphical.hyprland = {
+      enable = mkOption {
+        type = types.bool;
+        default = true;
+        description = "enable hyprland";
+      };
+    };
+  
+  config = mkIf (cfg.enable && config.gui.enable) {
     environment.systemPackages = with pkgs; [
       fzf
     ];
@@ -15,7 +25,7 @@ in {
     home-manager.users.${config.user} = {
       wayland.windowManager.hyprland = {
         enable = true;
-        extraConfig = ''
+        extraConfig = /**/ ''
           $terminal = kitty
 
           # Some default env vars.

@@ -5,6 +5,7 @@ let
 in {
   imports = [
     ./git.nix
+    ./ssh.nix
     ./repos
     ./shell
     ./applications
