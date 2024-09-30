@@ -117,7 +117,7 @@ in {
 
           gestures {
               # See https://wiki.hyprland.org/Configuring/Variables/ for more
-              workspace_swipe = off
+              workspace_swipe = ${if (config.laptop) then "on" else "off"}
           }
 
           windowrulev2 = suppressevent maximize, class:.* # You'll probably like this.
