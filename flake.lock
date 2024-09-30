@@ -719,27 +719,6 @@
         "type": "github"
       }
     },
-    "naersk": {
-      "inputs": {
-        "nixpkgs": [
-          "swww",
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1671096816,
-        "narHash": "sha256-ezQCsNgmpUHdZANDCILm3RvtO1xH8uujk/+EqNvzIOg=",
-        "owner": "nmattia",
-        "repo": "naersk",
-        "rev": "d998160d6a076cfe8f9741e56aeec7e267e3e114",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nmattia",
-        "repo": "naersk",
-        "type": "github"
-      }
-    },
     "neo-tree": {
       "flake": false,
       "locked": {
@@ -1124,8 +1103,7 @@
         "home-manager": "home-manager",
         "hyprland": "hyprland",
         "nixpkgs": "nixpkgs",
-        "nvim4": "nvim4",
-        "swww": "swww"
+        "nvim4": "nvim4"
       }
     },
     "rose-pine": {
@@ -1157,27 +1135,6 @@
       "original": {
         "owner": "startup-nvim",
         "repo": "startup.nvim",
-        "type": "github"
-      }
-    },
-    "swww": {
-      "inputs": {
-        "naersk": "naersk",
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1673466870,
-        "narHash": "sha256-/rmRcGEbpJHXCWeRWX9u6RaNzPdPnUtHNEy98ygfw4Q=",
-        "owner": "a-clean-kitchen",
-        "repo": "swww",
-        "rev": "740a95b1dc27d554847ec8b6fa67cc2382de6b87",
-        "type": "github"
-      },
-      "original": {
-        "owner": "a-clean-kitchen",
-        "repo": "swww",
         "type": "github"
       }
     },

@@ -11,9 +11,23 @@ in {
         default = true;
         description = "enable hyprland";
       };
+      
+      scriptsDir = mkOption {
+        type = types.path;
+        default = "/home/${config.user}/.config/hypr/scripts";
+      };
     };
   
-  config = mkIf (cfg.enable && config.gui.enable) {
+  config = let
+    hyprInit =
+      ''
+        #! ${pkgs.runtimeShell}
+        hyprDir=~/.config/hypr
+        hyprScripts=$hyprDir/scripts
+        hyprPapers=$hyprDir/wallpapers
+        ${config.graphical.wallpapers.script} $hyprPapers/office.jpg
+      '';
+  in mkIf (cfg.enable && config.gui.enable) {
     environment.systemPackages = with pkgs; [
       fzf
     ];
@@ -23,15 +37,29 @@ in {
       dconf.enable = mkDefault true;
     };
     home-manager.users.${config.user} = {
+      xdg.configFile."hypr/scripts/hyprInit" = {
+        executable = true;
+        text = hyprInit;
+      };
       wayland.windowManager.hyprland = {
         enable = true;
         extraConfig = /**/ ''
           $terminal = kitty
+          
+          misc {
+            # sowwy hypr
+            disable_hyprland_logo = true
+            disable_splash_rendering = true
 
+            font_family = ${config.bestFont}
+          }
+          
           # Some default env vars.
           env = XCURSOR_SIZE,24
           env = QT_QPA_PLATFORMTHEME,qt5ct # change to qt6ct if you have that
-
+          
+          exec-once = ${cfg.scriptsDir}/hyprInit
+           
           # For all categories, see https://wiki.hyprland.org/Configuring/Variables/
           input {
               kb_layout = us

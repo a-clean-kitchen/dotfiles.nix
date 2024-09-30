@@ -22,10 +22,9 @@ in
     in {
       programs.ssh = {
         enable = true;
-        extraConfig = mkIf (config.tools.onepassword.enable) ''
-          Host *
-              IdentityAgent ${onePassPath}
-        ''; 
+        extraConfig = if (config.tools.onepassword.enable) then
+        "IdentityAgent ${onePassPath}"
+        else ""; 
       };
     };
   };
