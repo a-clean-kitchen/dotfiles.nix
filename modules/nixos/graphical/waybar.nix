@@ -26,6 +26,17 @@ in
   
 
   config = mkIf cfg.enable {
-    
+    home-manager.users.${config.user} = {
+      programs.waybar = {
+        enable = true;
+        settings = {
+          mainBar = {
+            spacing = 5;
+            margin-bottom = "-11";
+          };
+        };
+        style = '''';
+      };
+    };
   };
 }
