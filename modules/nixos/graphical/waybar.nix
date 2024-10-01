@@ -8,21 +8,12 @@ let
 in
 {
   options.graphical.waybar = {
-      enable = mkOption {
-        type = types.bool;
-        default = true;
-        description = "enable waybar";
-      };
-
-      launcherPath = mkOption {
-        type = types.path;
-        default = writeShellScript "waybar-launcher"
-          ''
-          waybar
-          '';
-        description = "path to waybar launcher script";
-      };
+    enable = mkOption {
+      type = types.bool;
+      default = true;
+      description = "enable waybar";
     };
+  };
   
 
   config = mkIf cfg.enable {
@@ -30,15 +21,19 @@ in
       programs.waybar = {
         enable = true;
         settings = {
-          spacing = 5;
-          margin-bottom = "-11";
-          modules-left = [ "hyprland/workspaces" ];
-          "hyprland/workspaces" = {
-            format = "{icon}";
-            format-active = " {icon} ";
+          mainBar = {
+            spacing = 5;
+            layer = "top";
+            position = "top";
+            "margin-bottom" = -11;
+            "modules-left" = [ "hyprland/workspaces" ];
+            "hyprland/workspaces" = {
+              format = "{icon}";
+              "format-active" = " {icon} ";
+            };
           };
         };
-        style = ''
+        style = /*css*/ ''
         * {
             font-family: ${config.bestFont};
             font-size: 13px;
