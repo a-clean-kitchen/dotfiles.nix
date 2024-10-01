@@ -3,6 +3,7 @@
 {
   imports = [
     ./swww.nix
+    ./wofi.nix
     ./fonts.nix
     ./greetd.nix
     ./waybar.nix
