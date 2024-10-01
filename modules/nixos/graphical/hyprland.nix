@@ -26,6 +26,7 @@ in {
         hyprScripts=$hyprDir/scripts
         hyprPapers=$hyprDir/wallpapers
         ${config.graphical.wallpapers.script} $hyprPapers/office.jpg
+        waybar
       '';
   in mkIf (cfg.enable && config.gui.enable) {
     environment.systemPackages = with pkgs; [
