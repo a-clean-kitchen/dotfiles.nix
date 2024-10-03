@@ -15,7 +15,7 @@ in
     };
   
 
-  config = mkIf cfg.enable {
+  config = mkIf (cfg.enable && config.gui.enable) {
     home-manager.users.${config.user} = {
       programs.wofi = {
         enable = true;

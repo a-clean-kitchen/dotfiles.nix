@@ -17,5 +17,6 @@ in
     physical = mkDefault true; 
     wifi.enable = mkDefault true;
     gui.enable = mkDefault true;
+    isNixos = mkDefault true;
   };
 }

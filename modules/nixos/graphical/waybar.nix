@@ -16,7 +16,7 @@ in
   };
   
 
-  config = mkIf cfg.enable {
+  config = mkIf (cfg.enable && config.graphical.hyprland.enable) {
     home-manager.users.${config.user} = {
       programs.waybar = {
         enable = true;

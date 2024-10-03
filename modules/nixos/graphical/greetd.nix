@@ -3,7 +3,7 @@
 let
   inherit (lib) mkIf;
 in {
-  config = mkIf (config.gui.enable) {
+  config = mkIf (config.isNixos) {
     environment.systemPackages = with pkgs; [
       fzf
     ];

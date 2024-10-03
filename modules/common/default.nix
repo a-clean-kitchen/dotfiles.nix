@@ -12,6 +12,11 @@ in {
   ];
 
   options = {
+    isNixos = mkOption {
+      type = types.bool;
+      description = "Are you on a Nixos system?";
+      default = false;
+    };
     user = mkOption {
       type = types.str;
       description = "Primary user of the system";
@@ -20,7 +25,7 @@ in {
       type = types.str;
       description = "Human readable name of the user";
     };
-    homePath = lib.mkOption {
+    homePath = mkOption {
       type = lib.types.path;
       description = "Path of user's home directory.";
       default = builtins.toPath (if pkgs.stdenv.isDarwin then

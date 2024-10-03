@@ -9,5 +9,6 @@
         efi.canTouchEfiVariables = true;
       };
     };
+    isNixos = true;
   };
 }

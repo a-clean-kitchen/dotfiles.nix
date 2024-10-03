@@ -44,7 +44,7 @@ in {
       };
       wayland.windowManager.hyprland = {
         enable = true;
-        extraConfig = /**/ ''
+        extraConfig = /*hyprlang*/ ''
           $terminal = kitty
           
           misc {
