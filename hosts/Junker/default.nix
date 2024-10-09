@@ -37,6 +37,7 @@ inputs.nixpkgs.lib.nixosSystem {
       # he just a baby :,)
       nix.settings.cores = 2;
 
+      time.timeZone = "America/New_York";
       hardware.enableRedistributableFirmware = true;
       # A key of sorts
       passwordHash = inputs.nixpkgs.lib.fileContents ../../misc/password.sha512;
