@@ -18,29 +18,24 @@ in
       description = "the utility script for all things waybar";
       default = let
         scripted = /*bash*/ ''
-        TEMP=$XDG_DATA_HOME/current_wall
-        cooldown=0.1
-        files=(${config.graphical.wallpapers.images}/*)
-        while true
-        do 
-          case \"$1\" in 
-            \"cycle\")
+          TEMP=$XDG_DATA_HOME/current_wall
+          cooldown=0.1
+          files=(${config.graphical.wallpapers.images}/*)
+          case "$1" in 
+            "cycle")
               index=$(cat $TEMP)
               index=$((index+1))
-              if [ $index -ge \$\{#files[@]\} ]; then
+              if [ $index -ge ''${#files[@]} ]; then
                 index=0
               fi
               echo $index > $TEMP
-              ${config.graphical.wallpapers.script}/wall \"\$\{files[$index]}\"
+              ${config.graphical.wallpapers.script}/wall "''${files[$index]}"
               exit 0
               ;;
             "*")
               echo "gottem"
               ;;
           esac
-          sleep $cooldown
-        done
-
         ''; 
       in writeShellScript "wayUtil" scripted;
     };
@@ -58,13 +53,14 @@ in
             position = "top";
             "margin-bottom" = -11;
             "modules-left" = [ "hyprland/workspaces" ];
+            "modules-right" = [ "custom/cycle_wall" ];
             "hyprland/workspaces" = {
               format = "{icon}";
               "format-active" = " {icon} ";
             };
             "custom/cycle_wall" = {
               format = "{}";
-
+              "on-click" = "${config.graphical.waybar.script} cycle";
             };
           };
         };
@@ -78,14 +74,15 @@ in
             background-color: transparent;
         }
 
-        #workspaces{
+        #workspaces {
             background-color: transparent;
             margin-top: 10px;
             margin-bottom: 10px;
             margin-right: 10px;
             margin-left: 25px;
         }
-        #workspaces button{
+
+        #workspaces button {
             box-shadow: rgba(0, 0, 0, 0.116) 2 2 5 2px;
             background-color: #fff ;
             border-radius: 15px;
@@ -97,7 +94,7 @@ in
             color: 	#cba6f7 ;
         }
 
-        #workspaces button.active{
+        #workspaces button.active {
             padding-right: 20px;
             box-shadow: rgba(0, 0, 0, 0.288) 2 2 5 2px;
             text-shadow: 0 0 5px rgba(0, 0, 0, 0.377);
@@ -108,6 +105,28 @@ in
             background-size: 300% 300%;
             animation: gradient 10s ease infinite;
             color: #fff;
+        }
+
+        #custom-cycle_wall {
+            padding: 0 10px;
+            border-radius: 15px;
+            background-color: #cdd6f4;
+            color: #516079;
+            box-shadow: rgba(0, 0, 0, 0.116) 2 2 5 2px;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            margin-right: 10px;
+        }
+
+        #custom-cycle_wall {
+            background: rgb(245,194,231);
+            background: linear-gradient(45deg, rgba(245,194,231,1) 0%, rgba(203,166,247,1) 0%, rgba(243,139,168,1) 13%, rgba(235,160,172,1) 26%, rgba(250,179,135,1) 34%, rgba(249,226,175,1) 49%, rgba(166,227,161,1) 65%, rgba(148,226,213,1) 77%, rgba(137,220,235,1) 82%, rgba(116,199,236,1) 88%, rgba(137,180,250,1) 95%); 
+            color: #fff;
+            background-size: 500% 500%;
+            animation: gradient 7s linear infinite;
+            font-weight:  bolder;
+            padding: 5px;
+            border-radius: 15px;
         }
         '';
       };
