@@ -13,6 +13,37 @@ in
       default = true;
       description = "enable waybar";
     };
+    utilScript = mkOption {
+      type = types.path;
+      description = "the utility script for all things waybar";
+      default = let
+        scripted = /*bash*/ ''
+        TEMP=$XDG_DATA_HOME/current_wall
+        cooldown=0.1
+        files=(${config.graphical.wallpapers.images}/*)
+        while true
+        do 
+          case \"$1\" in 
+            \"cycle\")
+              index=$(cat $TEMP)
+              index=$((index+1))
+              if [ $index -ge \$\{#files[@]\} ]; then
+                index=0
+              fi
+              echo $index > $TEMP
+              ${config.graphical.wallpapers.script}/wall \"\$\{files[$index]}\"
+              exit 0
+              ;;
+            "*")
+              echo "gottem"
+              ;;
+          esac
+          sleep $cooldown
+        done
+
+        ''; 
+      in writeShellScript "wayUtil" scripted;
+    };
   };
   
 
@@ -30,6 +61,10 @@ in
             "hyprland/workspaces" = {
               format = "{icon}";
               "format-active" = " {icon} ";
+            };
+            "custom/cycle_wall" = {
+              format = "{}";
+
             };
           };
         };
