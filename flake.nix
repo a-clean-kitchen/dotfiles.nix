@@ -58,6 +58,14 @@
         deskBocks = nixosConfigurations.deskBocks.config.home-manager.users.${globals.user};
         "${globals.user}@junker" = nixosConfigurations.junker.config.home-manager.users.${globals.user};
       };
+
+      packages = {
+        "${system}" = {
+          homeConfigurations = {
+            "${globals.user}@junker".activationPackage = nixosConfigurations.junker.config.home-manager.users.${globals.user}.home.activationPackage;  
+          };
+        };
+      };
     };
 
   inputs = {
