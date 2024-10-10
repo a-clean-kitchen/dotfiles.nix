@@ -1,7 +1,7 @@
 {
   description = "My Dotfiles: Managed using Nix.";
 
-  outputs = inputs @ { self, nixpkgs, ... }: 
+  outputs = inputs @ { nixpkgs, ... }: 
     let
       globals = let domain = "quade.dev";
       in {
@@ -36,31 +36,14 @@
       devShells."${system}" = { default = import ./shell.nix { inherit pkgs; }; };
 
       nixosConfigurations = {
-        DeskBocks = import ./hosts/DeskBocks { inherit inputs globals overlays; };  
+        deskBocks = import ./hosts/DeskBocks { inherit inputs globals overlays; };  
         junker = import ./hosts/Junker { inherit inputs globals overlays; };
       };
       
-      # diskoConfigurations = { root = nixosConfigurations.DeskBocks.config; };
-
       homeConfigurations = {
-        DeskBocks = nixosConfigurations.DeskBocks.config.home-manager.users.${globals.user};
-        "${globals.user}@junker" = nixosConfigurations.junker.config.home-manager.users.${globals.user}.home;
+        deskBocks = nixosConfigurations.deskBocks.config.home-manager.users.${globals.user};
+        "${globals.user}@junker" = nixosConfigurations.junker.config.home-manager.users.${globals.user};
       };
-
-      # This is where I'm having nixd get all it's facts from
-      nixdEntry = (lib.nixosSystem {
-        system = "x86_64-linux";
-        modules = [
-          globals
-          inputs.home-manager.nixosModules.home-manager
-          ./modules/nixos 
-          ./modules/common
-        ];
-        specialArgs = {
-          inherit pkgs;
-        };
-      }).options // {lib = lib; builtins = builtins;};
-
     };
 
   inputs = {

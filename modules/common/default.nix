@@ -12,6 +12,11 @@ in {
   ];
 
   options = {
+    home-manager.users.${config.user}.activationPackage = mkOption {
+      type = types.package;
+      default = config.home-manager.users.${config.user}.home.activationPackage;
+      description = "I refuse to explain what I'm doing here just trust me";
+    };
     isNixos = mkOption {
       type = types.bool;
       description = "Are you on a Nixos system?";
@@ -64,7 +69,6 @@ in {
   config = let
     stateVersion = "23.05";
   in {
-    
     environment = {
       sessionVariables = {
         # These are the defaults, and xdg.enable does set them, but due to load
@@ -90,14 +94,11 @@ in {
           # Pin a state version to prevent warnings
           home = {
             stateVersion = stateVersion;
-
           };
           programs.home-manager.enable = true;
-          
         };
         root.home.stateVersion = stateVersion;
       };
-
     };
 
     # Allow specified unfree packages (identified elsewhere)
