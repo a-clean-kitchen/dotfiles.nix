@@ -90,6 +90,10 @@ in {
           home = {
             stateVersion = stateVersion;
           };
+          news = {
+            display = "silent";
+            entries = lib.mkForce [];
+          };
           # activationPackage = config.home-manager.users.${config.user}.home.activationPackage;
           programs.home-manager.enable = true;
         };

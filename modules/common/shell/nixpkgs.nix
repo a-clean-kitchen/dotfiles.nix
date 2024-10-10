@@ -47,7 +47,7 @@
         rebuild-home = {
           body = ''
             git -C ${config.dotfilesPath} add --intent-to-add --all
-            commandline -r "${pkgs.home-manager}/bin/home-manager switch --flake ${config.dotfilesPath}#${config.user}@${config.networking.hostName}";
+            commandline -r "${pkgs.home-manager}/bin/home-manager switch --flake ${config.dotfilesPath}";
             commandline --function execute
           '';
         };
