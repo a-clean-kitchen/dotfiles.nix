@@ -17,7 +17,7 @@ in
       type = types.path;
       description = "the utility script for all things waybar";
       default = let
-        scripted = /*bash*/ ''
+        script = /*bash*/ ''
           TEMP=$XDG_DATA_HOME/current_wall
           cooldown=0.1
           files=(${config.graphical.wallpapers.images}/*)
@@ -32,35 +32,87 @@ in
               ${config.graphical.wallpapers.script} "''${files[$index]}"
               exit 0
               ;;
-            "*")
-              echo "gottem"
+            "arrow-icon")
+              if $scripts/toolbar_state; then
+                  echo ""
+              else
+                  echo ""
+              fi
               ;;
+            *)
+                if $scripts/toolbar_state; then
+                    echo "     "
+                else
+                    echo ""
+                fi
+                ;;
           esac
         ''; 
-      in writeShellScript "wayUtil" scripted;
+      in writeShellScript "wayUtil" script;
+    };
+    expandStateScript = mkOption {
+      type = types.path;
+      description = "script to determine expand lock state of waybar";
+      default = let
+        script = /*bash*/ ''
+          LOCK=$XDG_DATA_HOME/expand.lock
+          if [ -f "$LOCK" ]; then
+              exit 0
+          else 
+              exit 1
+          fi
+        '';
+      in writeShellScript "toolbar-state" script;
+    };
+    expandLockScript = mkOption {
+      type = types.path;
+      description = "script to set expand lock state of waybar";
+      default = let
+        script = /*bash*/ ''
+          LOCK=$XDG_DATA_HOME/expand.lock
+          if [ -f "$LOCK" ]; then
+              echo expand
+              rm -f "$LOCK"
+          else 
+              echo collapse
+              touch "$LOCK"
+          fi
+        '';
+    in writeShellScript "toolbar-lock" script;
     };
   };
   
 
   config = mkIf (cfg.enable && config.graphical.hyprland.enable) {
     home-manager.users.${config.user} = {
-      programs.waybar = {
+      programs.waybar = let
+        interval = 0.2;
+      in {
         enable = true;
         settings = {
           mainBar = {
+            reload_style_on_change = true;
             spacing = 5;
             layer = "top";
             position = "top";
             "margin-bottom" = -11;
             "modules-left" = [ "hyprland/workspaces" ];
-            "modules-right" = [ "custom/cycle_wall" ];
+            "modules-right" = [ "custom/cycle_wall" "custom/expand" ];
             "hyprland/workspaces" = {
               format = "{icon}";
               "format-active" = " {icon} ";
             };
             "custom/cycle_wall" = {
+              inherit interval;
               format = "{}";
               "on-click" = "${config.graphical.waybar.utilScript} cycle";
+              exec = "${config.graphical.waybar.utilScript} wall";
+            };
+            "custom/expand" = {
+              inherit interval;
+              format = "{}";
+              "on-click" = "${config.graphical.waybar.expandLockScript}";
+              exec = "${config.graphical.waybar.utilScript} arrow-icon";
             };
           };
         };
@@ -119,7 +171,8 @@ in
             color: #fff;
         }
 
-        #custom-cycle_wall {
+        #custom-cycle_wall,
+        #custom-expand {
             padding: 0 10px;
             border-radius: 15px;
             background-color: #cdd6f4;
