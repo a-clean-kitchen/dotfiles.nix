@@ -21,32 +21,36 @@ in
           TEMP=$XDG_DATA_HOME/current_wall
           cooldown=0.1
           files=(${config.graphical.wallpapers.images}/*)
-          case "$1" in 
-            "cycle")
-              index=$(cat $TEMP)
-              index=$((index+1))
-              if [ $index -ge ''${#files[@]} ]; then
-                index=0
-              fi
-              echo $index > $TEMP
-              ${config.graphical.wallpapers.script} "''${files[$index]}"
-              exit 0
-              ;;
-            "arrow-icon")
-              if ${config.graphical.waybar.expandStateScript}; then
-                  echo ""
-              else
-                  echo ""
-              fi
-              ;;
-            *)
-              if ${config.graphical.waybar.expandStateScript}; then
-                  echo "     "
-              else
-                  echo ""
-              fi
-              ;;
-          esac
+          while true
+          do
+            case "$1" in 
+              "cycle")
+                index=$(cat $TEMP)
+                index=$((index+1))
+                if [ $index -ge ''${#files[@]} ]; then
+                  index=0
+                fi
+                echo $index > $TEMP
+                ${config.graphical.wallpapers.script} "''${files[$index]}"
+                exit 0
+                ;;
+              "arrow-icon")
+                if ${config.graphical.waybar.expandStateScript}; then
+                    echo ""
+                else
+                    echo ""
+                fi
+                ;;
+              *)
+                if ${config.graphical.waybar.expandStateScript}; then
+                    echo "     "
+                else
+                    echo ""
+                fi
+                ;;
+            esac
+            sleep $cooldown
+          done
         ''; 
       in writeShellScript "wayUtil" script;
     };
@@ -85,9 +89,7 @@ in
 
   config = mkIf (cfg.enable && config.graphical.hyprland.enable) {
     home-manager.users.${config.user} = {
-      programs.waybar = let
-        interval = 0.2;
-      in {
+      programs.waybar = {
         enable = true;
         settings = {
           mainBar = {
@@ -103,13 +105,11 @@ in
               "format-active" = " {icon} ";
             };
             "custom/cycle_wall" = {
-              inherit interval;
               format = "{}";
               "on-click" = "${config.graphical.waybar.utilScript} cycle";
               exec = "${config.graphical.waybar.utilScript} wall";
             };
             "custom/expand" = {
-              inherit interval;
               format = "{}";
               "on-click" = "${config.graphical.waybar.expandLockScript}";
               exec = "${config.graphical.waybar.utilScript} arrow-icon";
