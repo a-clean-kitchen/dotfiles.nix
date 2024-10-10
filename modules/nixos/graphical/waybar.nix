@@ -33,19 +33,19 @@ in
               exit 0
               ;;
             "arrow-icon")
-              if $scripts/toolbar_state; then
+              if ${config.graphical.waybar.expandStateScript}; then
                   echo ""
               else
                   echo ""
               fi
               ;;
             *)
-                if $scripts/toolbar_state; then
-                    echo "     "
-                else
-                    echo ""
-                fi
-                ;;
+              if ${config.graphical.waybar.expandStateScript}; then
+                  echo "     "
+              else
+                  echo ""
+              fi
+              ;;
           esac
         ''; 
       in writeShellScript "wayUtil" script;
