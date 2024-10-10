@@ -20,8 +20,16 @@ in
           ''
           swww=${pkgs.swww}/bin/swww
 
-          $swww-daemon &
-          $swww img $1 --transition-type grow --transition-duration 3 --transition-pos "$(hyprctl cursorpos)"
+          case "$1" in
+            "init")
+              $swww-daemon &
+              $swww img $2 --transition-type grow --transition-duration 3 --transition-pos "$(hyprctl cursorpos)" --invert-y
+              ;;
+            *)
+              sleep 1
+              $swww img $1 --transition-type grow --transition-duration 3 --transition-pos "$(hyprctl cursorpos)" --invert-y
+              ;;
+          esac
           '';
         description = "script to manage wallpapers";
       };

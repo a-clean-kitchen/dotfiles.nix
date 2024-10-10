@@ -22,7 +22,7 @@ inputs.nixpkgs.lib.nixosSystem {
      
       # Boot from a usb
       # Set password for root: sudo -s; passwd
-      # nix run github:nix-community/nixos-anywhere -- --flake .#DeskBocks -L root@ip.or.host.name
+      # nix run github:nix-community/nixos-anywhere -- --flake .#junker -L root@ip.or.host.name
       disko = {
         enableConfig = true;
         devices = (import ../../disks/root.nix { disk = "/dev/sda"; });

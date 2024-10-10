@@ -31,27 +31,6 @@
         };
       };
 
-      mkHomeConfig = {
-        username ? globals.user,
-        system ? "x86_64-linux",
-        nixpkgs ? inputs.nixpkgs,
-        baseModules ? [
-          {
-            home = {
-              sessionVariables = {
-                NIX_PATH = "nixpkgs=${nixpkgs}";
-              };
-            };
-          }
-        ],
-        extraModules ? []
-      }: 
-        inputs.home-manager.lib.homeManagerConfiguration {
-          pkgs = import nixpkgs {
-            inherit system;
-          };
-          modules = baseModules ++ extraModules;
-        };
     in rec {
       # nix-shell
       devShells."${system}" = { default = import ./shell.nix { inherit pkgs; }; };
@@ -65,9 +44,7 @@
 
       homeConfigurations = {
         DeskBocks = nixosConfigurations.DeskBocks.config.home-manager.users.${globals.user};
-        "${globals.user}@junker" = mkHomeConfig {
-          extraModules = [ nixosConfigurations.junker.config.home-manager.users.${globals.user} ];
-        };
+        "${globals.user}@junker" = nixosConfigurations.junker.config.home-manager.users.${globals.user}.home;
       };
 
       # This is where I'm having nixd get all it's facts from

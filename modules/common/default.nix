@@ -88,8 +88,12 @@ in {
       users = {
         ${config.user} = {
           # Pin a state version to prevent warnings
-          home.stateVersion = stateVersion;
+          home = {
+            stateVersion = stateVersion;
+
+          };
           programs.home-manager.enable = true;
+          
         };
         root.home.stateVersion = stateVersion;
       };

@@ -25,7 +25,7 @@ in {
         hyprDir=~/.config/hypr
         hyprScripts=$hyprDir/scripts
         hyprPapers=$hyprDir/wallpapers
-        ${config.graphical.wallpapers.script} $hyprPapers/office.jpg
+        ${config.graphical.wallpapers.script} init $hyprPapers/office.jpg
         waybar
       '';
   in mkIf (cfg.enable && config.gui.enable) {

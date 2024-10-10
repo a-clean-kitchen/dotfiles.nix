@@ -92,12 +92,15 @@ in
       programs.waybar = {
         enable = true;
         settings = {
-          mainBar = {
+          mainBar = let
+            # disable hover
+            tooltip = false;
+          in  {
             reload_style_on_change = true;
             spacing = 5;
             layer = "top";
             position = "top";
-            "margin-bottom" = -11;
+            "margin-bottom" = -15;
             "modules-left" = [ "hyprland/workspaces" ];
             "modules-right" = [ "custom/cycle_wall" "custom/expand" ];
             "hyprland/workspaces" = {
@@ -105,11 +108,13 @@ in
               "format-active" = " {icon} ";
             };
             "custom/cycle_wall" = {
+              inherit tooltip;
               format = "{}";
               "on-click" = "${config.graphical.waybar.utilScript} cycle";
               exec = "${config.graphical.waybar.utilScript} wall";
             };
             "custom/expand" = {
+              inherit tooltip;
               format = "{}";
               "on-click" = "${config.graphical.waybar.expandLockScript}";
               exec = "${config.graphical.waybar.utilScript} arrow-icon";
