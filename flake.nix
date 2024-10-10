@@ -1,7 +1,7 @@
 {
   description = "My Dotfiles: Managed using Nix.";
 
-  outputs = inputs @ { nixpkgs, ... }: 
+  outputs = inputs @ { nixpkgs, home-manager, ... }: 
     let
       globals = let domain = "quade.dev";
       in {
@@ -31,6 +31,19 @@
         };
       };
 
+      hmConfig = nixosDerivedModules: home-manager.lib.homeManagerConfiguration {
+        inherit pkgs;
+        modules = [(
+            { lib, config, ... }:
+            {
+              options.activationPackage = lib.mkOption {
+                type = lib.types.package;
+                default = config.home.activationPackage;
+                description = "don't ask";
+              };
+            })
+        ];
+      } // nixosDerivedModules;
     in rec {
       # nix-shell
       devShells."${system}" = { default = import ./shell.nix { inherit pkgs; }; };
@@ -42,7 +55,7 @@
       
       homeConfigurations = {
         deskBocks = nixosConfigurations.deskBocks.config.home-manager.users.${globals.user};
-        "${globals.user}@junker" = nixosConfigurations.junker.config.home-manager.users.${globals.user};
+        "${globals.user}@junker" = hmConfig nixosConfigurations.junker.config.home-manager.users.${globals.user};
       };
     };
 
