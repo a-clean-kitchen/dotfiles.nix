@@ -36,9 +36,10 @@
         modules = [(
             { lib, config, ... }:
             {
-              options.activationPackage = lib.mkOption {
+              options.home.news.json.output = lib.mkOption {
                 type = lib.types.package;
-                default = config.home.activationPackage;
+                default = pkgs.writeText "hm-news.json"
+                  (builtins.toJSON { inherit (config.news) display entries; } );
                 description = "don't ask";
               };
             })
@@ -55,7 +56,7 @@
       
       homeConfigurations = {
         deskBocks = nixosConfigurations.deskBocks.config.home-manager.users.${globals.user};
-        "${globals.user}@junker" = hmConfig nixosConfigurations.junker.config.home-manager.users.${globals.user};
+        "${globals.user}@junker" = nixosConfigurations.junker.config.home-manager.users.${globals.user};
       };
     };
 

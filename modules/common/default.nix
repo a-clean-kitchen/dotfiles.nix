@@ -12,11 +12,6 @@ in {
   ];
 
   options = {
-    home-manager.users.${config.user}.activationPackage = mkOption {
-      type = types.package;
-      default = config.home-manager.users.${config.user}.home.activationPackage;
-      description = "I refuse to explain what I'm doing here just trust me";
-    };
     isNixos = mkOption {
       type = types.bool;
       description = "Are you on a Nixos system?";
@@ -95,6 +90,7 @@ in {
           home = {
             stateVersion = stateVersion;
           };
+          # activationPackage = config.home-manager.users.${config.user}.home.activationPackage;
           programs.home-manager.enable = true;
         };
         root.home.stateVersion = stateVersion;
