@@ -6,7 +6,7 @@ let
 in
 {
   options.bestFont = mkOption {
-    type = types.string;
+    type = types.str;
     default = bestFont;
     description = "use the literal best font";
   };

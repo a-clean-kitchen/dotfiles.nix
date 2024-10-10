@@ -18,6 +18,7 @@ in
   config = mkIf cfg.enable {
     unfreePackages = [
       "1password-gui"
+      "1password-cli"
       "1password"
     ];
 

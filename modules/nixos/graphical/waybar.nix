@@ -29,7 +29,7 @@ in
                 index=0
               fi
               echo $index > $TEMP
-              ${config.graphical.wallpapers.script}/wall "''${files[$index]}"
+              ${config.graphical.wallpapers.script} "''${files[$index]}"
               exit 0
               ;;
             "*")
@@ -60,7 +60,7 @@ in
             };
             "custom/cycle_wall" = {
               format = "{}";
-              "on-click" = "${config.graphical.waybar.script} cycle";
+              "on-click" = "${config.graphical.waybar.utilScript} cycle";
             };
           };
         };
@@ -68,6 +68,18 @@ in
         * {
             font-family: ${config.bestFont};
             font-size: 13px;
+        }
+
+        @keyframes gradients {
+          0% {
+            background-position: 0% 50%;
+          }
+          50% {
+            background-position: 100% 50%;
+          }
+          100% {
+            background-position: 0% 50%;
+          }
         }
 
         window#waybar {
