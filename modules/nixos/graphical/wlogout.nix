@@ -23,7 +23,7 @@ in
         B_1080=400
 
         # Check if wlogout is already running
-        if ${pkgs.pgrep} -x "wlogout" > /dev/null; then
+        if pgrep -x "wlogout" > /dev/null; then
             pkill -x "wlogout"
             exit 0
         fi
