@@ -38,9 +38,15 @@ in {
       dconf.enable = mkDefault true;
     };
     home-manager.users.${config.user} = {
-      xdg.configFile."hypr/scripts/hyprInit" = {
-        executable = true;
-        text = hyprInit;
+      home.packages = with pkgs; [
+        xdg-desktop-portal-gtk
+        xdg-desktop-portal-hyprland
+      ];
+      xdg.configFile = {
+        "hypr/scripts/hyprInit" = {
+          executable = true;
+          text = hyprInit;
+        };
       };
       wayland.windowManager.hyprland = {
         enable = true;
@@ -178,6 +184,7 @@ in {
           bindm = $mainMod, mouse:273, resizewindow
 
           bind = $mainMod, space, exec, wofi --show drun
+          bind = $mainMod, l, ${config.graphical.wlogout.homePath}
         '';
         systemd = {
           enable = true;

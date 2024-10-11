@@ -36,9 +36,9 @@ in
                 ;;
               "arrow-icon")
                 if ${config.graphical.waybar.expandStateScript}; then
-                    echo ""
+                    echo "  "
                 else
-                    echo ""
+                    echo "  "
                 fi
                 ;;
               *)
