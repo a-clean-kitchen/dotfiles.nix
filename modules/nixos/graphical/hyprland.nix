@@ -18,17 +18,7 @@ in {
       };
     };
   
-  config = let
-    hyprInit =
-      ''
-        #! ${pkgs.runtimeShell}
-        hyprDir=~/.config/hypr
-        hyprScripts=$hyprDir/scripts
-        hyprPapers=$hyprDir/wallpapers
-        ${config.graphical.wallpapers.script} init $hyprPapers/office.jpg
-        waybar
-      '';
-  in mkIf (cfg.enable && config.gui.enable) {
+  config = mkIf (cfg.enable && config.gui.enable) {
     environment.systemPackages = with pkgs; [
       fzf
     ];
@@ -41,18 +31,33 @@ in {
       home.packages = with pkgs; [
         xdg-desktop-portal-gtk
         xdg-desktop-portal-hyprland
+        wl-clipboard
       ];
       xdg.configFile = {
-        "hypr/scripts/hyprInit" = {
-          executable = true;
-          text = hyprInit;
+        "hypr/conf/startup.conf" = {
+          text = /*hyprlang*/ ''
+          $wallDIR = $HOME/Pictures/wallpapers
+          exec-once = ${config.graphical.wallpapers.script} init $wallDIR/wanderer.jpg
+
+          exec-once = dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
+          exec-once = systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
+
+          ${if config.graphical.waybar.enable then "exec-once = waybar &" else ""}
+          ${if config.graphical.hypridle.enable then "exec-once = hypridle &" else ""}
+
+          exec-once = wl-paste --type text --watch cliphist store 
+          exec-once = wl-paste --type image --watch cliphist store
+          '';
         };
       };
       wayland.windowManager.hyprland = {
         enable = true;
         extraConfig = /*hyprlang*/ ''
           $terminal = kitty
-          
+          $configs = $HOME/.config/hypr/conf
+
+          source = $configs/startup.conf
+
           misc {
             # sowwy hypr
             disable_hyprland_logo = true
@@ -65,8 +70,6 @@ in {
           env = XCURSOR_SIZE,24
           env = QT_QPA_PLATFORMTHEME,qt5ct # change to qt6ct if you have that
           
-          exec-once = ${cfg.scriptsDir}/hyprInit
-           
           # For all categories, see https://wiki.hyprland.org/Configuring/Variables/
           input {
               kb_layout = us

@@ -44,7 +44,7 @@ in
 
   config = mkIf (cfg.enable && config.graphical.hyprland.enable) {
     home-manager.users.${config.user} = {
-      xdg.configFile."hypr/wallpapers" = {
+      home.file."Pictures/wallpapers" = {
         source = config.graphical.wallpapers.images;
         recursive = true;
       };
