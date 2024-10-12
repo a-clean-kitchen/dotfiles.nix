@@ -187,7 +187,8 @@ in {
           bindm = $mainMod, mouse:273, resizewindow
 
           bind = $mainMod, space, exec, wofi --show drun
-          bind = $mainMod, l, ${config.graphical.wlogout.homePath}
+          layerrule = blur, logout_dialog
+          bind = $mainMod, l, exec, ~/${config.graphical.wlogout.homePath}
         '';
         systemd = {
           enable = true;

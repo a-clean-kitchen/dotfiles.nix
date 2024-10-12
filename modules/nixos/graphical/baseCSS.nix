@@ -47,7 +47,7 @@ in
   };
   
 
-  config = mkIf config.graphical.enable {
+  config = mkIf config.gui.enable {
     home-manager.users.${config.user} = {
       xdg.configFile = {
         "css/base.css" = {

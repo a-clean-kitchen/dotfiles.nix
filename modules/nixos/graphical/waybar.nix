@@ -31,6 +31,8 @@ in
                   index=0
                 fi
                 echo $index > $TEMP
+                if [[ -e $XDG_DATA_HOME/current_wall_image.png ]]; then rm $XDG_DATA_HOME/current_wall_image.png; fi
+                magick convert "''${files[$index]}" $XDG_DATA_HOME/current_wall_image.png
                 ${config.graphical.wallpapers.script} "''${files[$index]}"
                 exit 0
                 ;;

@@ -20,12 +20,16 @@ in
       home.packages = with pkgs; [
         hyprlock
       ];
+      home.file."Pictures/lockpapers" = {
+        source = ./lockPapers;
+        recursive = true;
+      };
       xdg.configFile = {
         "hypr/hyprlock.conf" = {
           text = /*hyprlang*/ ''
             background {
                 monitor =
-                # all these options are taken from hyprland, see https://wiki.hyprland.org/Configuring/Variables/#blur for explanations
+                path = $HOME/Pictures/lockpapers/starry-clouds.png
                 blur_size = 4
                 blur_passes = 3 # 0 disables blurring
                 noise = 0.0117
@@ -112,11 +116,10 @@ in
                 dots_size = 0.26 # Scale of input-field height, 0.2 - 0.8
                 dots_spacing = 0.64 # Scale of dots' absolute size, 0.0 - 1.0
                 dots_center = true
-                dots_rouding = -1
 
                 rounding = 22
-                outer_color = $color0
-                inner_color = $color0
+                outer_color = rgb(1e1e2e)
+                inner_color = rgb(1e1e2e)
                 font_color = rgb(cdd6f4)
                 fade_on_empty = true
                 placeholder_text = <i>Password...</i> # Text rendered in the input box when it's empty.

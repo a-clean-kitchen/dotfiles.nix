@@ -19,24 +19,22 @@ in
       description = "wlogout script";
       default = let
         script = /*bash*/ ''
-        A_1080=400
-        B_1080=400
-
         # Check if wlogout is already running
         if pgrep -x "wlogout" > /dev/null; then
-            pkill -x "wlogout"
-            exit 0
+          pkill -x "wlogout"
+          exit 0
         fi
 
-        # Detect monitor resolution and scaling factor
-        resolution=$(hyprctl -j monitors | jq -r '.[] | select(.focused==true) | .height / .scale' | awk -F'.' '{print $1}')
-        hypr_scale=$(hyprctl -j monitors | jq -r '.[] | select(.focused==true) | .scale')
+        height=$(hyprctl -j monitors | jq -r '.[] | select(.focused==true) | .height')
+        Vmargin=$((($height / 2) - 100))
+
+        width=$(hyprctl -j monitors | jq -r '.[] | select(.focused==true) | .width')
+        Hmargin=$((($width / 2) - 550))
+
         wlogout \
-          -C $HOME/.config/wlogout/style.css \
-          -l $HOME/.config/wlogout/layout \
-          --protocol layer-shell -b 5 \
-          -T $(awk "BEGIN {printf \"%.0f\", $A_1080 * 1080 * $hypr_scale / $resolution}") \
-          -B $(awk "BEGIN {printf \"%.0f\", $B_1080 * 1080 * $hypr_scale / $resolution}") &
+        --protocol layer-shell -b 5 \
+        -L $Hmargin -R $Hmargin \
+        -T $Vmargin -B $Vmargin &
         '';
       in writeShellScript "wlogout.sh" script;
     };
@@ -50,8 +48,11 @@ in
   config = let
     path = "wlogout";
   in mkIf (cfg.enable && config.graphical.hyprland.enable) {
-    graphical.wlogout.homePath = "~/.config/wlogout/wlogout.sh";
+    graphical.wlogout.homePath = ".config/wlogout/wlogout.sh";
     home-manager.users.${config.user} = {
+      home.packages = with pkgs; [
+        wlogout
+      ];
       xdg.configFile = {
         "${path}/wlogout.sh" = {
           executable = true;
@@ -63,50 +64,56 @@ in
         };
         "${path}/style.css" = {
           text = /*css*/ ''
-          @import '~/.config/css/base.css'
+          @import '../css/base.css';
+
+          * {
+            all: unset;
+          }
 
           window {
-              font-family: ${config.bestFont};
-              font-size: 16pt;
-              color: @base;
-              background-color: rgba(24, 27, 32, 0.2);
-
+            font-family: ${config.bestFont};
+            font-size: 16pt;
+            background-color: rgba(24, 27, 32, 0.1);
           } 
 
           button {
-              background-repeat: no-repeat;
-              background-position: center;
-              background-size: 20%;
-              background-color: transparent;
-              animation: gradient_f 20s ease-in infinite;
-              transition: all 0.3s ease-in;
-              box-shadow: 0 0 10px 2px transparent;
-              border-radius: 36px;
-              margin: 10px;
+            min-width: 200px;
+            min-height: 200px;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: 20%;
+            background-color: transparent;
+            animation: gradient_f 20s ease-in infinite;
+            transition: all 0.3s ease-in;
+            box-shadow: 0 0 10px 2px transparent;
+            border-radius: 36px;
+            border: 0;
+            margin: 10px;
+            color: @text;
           }
 
           button:focus {
-              box-shadow: none;
-              background-size : 20%;
+            box-shadow: none;
+            background-size : 20%;
           }
 
           button:hover {
-              background-size: 50%;
-              box-shadow: 0 0 10px 3px rgba(0,0,0,.4);
-              background-color: @pink;
-              color: transparent;
-              transition: all 0.3s cubic-bezier(.55, 0.0, .28, 1.682), box-shadow 0.5s ease-in;
+            background-size: 50%;
+            box-shadow: 0 0 10px 3px rgba(0,0,0,.4);
+            background-color: @pink;
+            color: transparent;
+            transition: all 0.3s cubic-bezier(.55, 0.0, .28, 1.682), box-shadow 0.5s ease-in;
           }
 
           #shutdown {
-              background-image: image(url("./icons/power.png"));
+            background-image: image(url("./icons/power.png"));
           }
           #shutdown:hover {
             background-image: image(url("./icons/power-hover.png"));
           }
 
           #logout {
-              background-image: image(url("./icons/logout.png"));
+            background-image: image(url("./icons/logout.png"));
 
           }
           #logout:hover {
@@ -114,21 +121,21 @@ in
           }
 
           #reboot {
-              background-image: image(url("./icons/restart.png"));
+            background-image: image(url("./icons/restart.png"));
           }
           #reboot:hover {
             background-image: image(url("./icons/restart-hover.png"));
           }
 
           #lock {
-              background-image: image(url("./icons/lock.png"));
+            background-image: image(url("./icons/lock.png"));
           }
           #lock:hover {
             background-image: image(url("./icons/lock-hover.png"));
           }
 
           #hibernate {
-              background-image: image(url("./icons/hibernate.png"));
+            background-image: image(url("./icons/hibernate.png"));
           }
           #hibernate:hover {
             background-image: image(url("./icons/hibernate-hover.png"));
