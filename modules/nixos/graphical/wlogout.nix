@@ -134,11 +134,11 @@ in
             background-image: image(url("./icons/lock-hover.png"));
           }
 
-          #hibernate {
-            background-image: image(url("./icons/hibernate.png"));
+          #sleep {
+            background-image: image(url("./icons/sleep.png"));
           }
-          #hibernate:hover {
-            background-image: image(url("./icons/hibernate-hover.png"));
+          #sleep:hover {
+            background-image: image(url("./icons/sleep-hover.png"));
           }
           '';
         };
@@ -163,9 +163,9 @@ in
               "keybind" : "e"
           }
           {
-              "label" : "hibernate",
-              "action" : "${pkgs.swaylock} -f && systemctl hibernate",
-              "text" : "Hibernate",
+              "label" : "sleep",
+              "action" : "hyprlock && loginctl lock-session && systemctl sleep && hyprctl dispatch dpms on",
+              "text" : "Sleep",
               "keybind" : "h"
           }
           {

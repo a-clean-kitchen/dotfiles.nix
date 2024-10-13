@@ -27,107 +27,94 @@ in
       xdg.configFile = {
         "hypr/hyprlock.conf" = {
           text = /*hyprlang*/ ''
-            background {
-                monitor =
-                path = $HOME/Pictures/lockpapers/starry-clouds.png
-                blur_size = 4
-                blur_passes = 3 # 0 disables blurring
-                noise = 0.0117
-                contrast = 1.3000 # Vibrant!!!
-                brightness = 0.8000
-                vibrancy = 0.2100
-                vibrancy_darkness = 0.0
-            }
+          general {
+              hide_cursor = true
+              fractional_scaling = 1
+          }
 
-            # Hours
-            label {
-                monitor =
-                text = cmd[update:1000] echo "<b><big> $(date +"%H") </big></b>"
-                color = rgb(fab387)
-                font_size = 112
-                font_family = ${config.bestFont}
-                shadow_passes = 3
-                shadow_size = 4
+          background {
+              monitor =
+              path = $HOME/Pictures/lockpapers/starry-clouds.png
+              blur_size = 4
+              blur_passes = 1 # 0 disables blurring
+              noise = 0.0117
+              contrast = 1.3000 # Vibrant!!!
+              brightness = 0.8000
+              vibrancy = 0.2100
+              vibrancy_darkness = 0.0
+          }
 
-                position = 0, 220
-                halign = center
-                valign = center
-            }
+          # Hours
+          label {
+              monitor =
+              text = cmd[update:1000] echo "<b><big> $(date +"%H") </big></b>"
+              color = rgb(cba6f7)
+              font_size = 112
+              font_family = CascadiaCode
+              shadow_passes = 3
+              shadow_size = 4
 
-            # Minutes
-            label {
-                monitor =
-                text = cmd[update:1000] echo "<b><big> $(date +"%M") </big></b>"
-                color = rgb(fab387)
-                font_size = 112
-                font_family = ${config.bestFont}
-                shadow_passes = 3
-                shadow_size = 4
+              position = 0, 220
+              halign = left
+              valign = center
+          }
 
-                position = 0, 80
-                halign = center
-                valign = center
-            }
+          # Minutes
+          label {
+              monitor =
+              text = cmd[update:1000] echo "<b><big> $(date +"%M") </big></b>"
+              color = rgb(cba6f7)
+              font_size = 112
+              font_family = CascadiaCode
+              shadow_passes = 3
+              shadow_size = 4
 
-            # Today
-            label {
-                monitor =
-                text = cmd[update:18000000] echo "<b><big> "$(date +'%A')" </big></b>"
-                color = rgb(89dceb)
-                font_size = 22
-                font_family = ${config.bestFont}
+              position = 0, 80
+              halign = left
+              valign = center
+          }
 
-                position = 0, 30
-                halign = center
-                valign = center
-            }
+          # Today
+          label {
+              monitor =
+              text = cmd[update:18000000] echo "<b><big> "$(date +'%A')" </big></b>"
+              color = rgb(cdd6f4)
+              font_size = 22
+              font_family = CascadiaCode
 
-            # Week
-            label {
-                monitor =
-                text = cmd[update:18000000] echo "<b> "$(date +'%d %b')" </b>"
-                color = rgb(89dceb)
-                font_size = 18
-                font_family = ${config.bestFont}
+              position = 50, 0
+              halign = left
+              valign = center
+          }
 
-                position = 0, 6
-                halign = center
-                valign = center
-            }
+          # Week
+          label {
+              monitor =
+              text = cmd[update:18000000] echo "<b> "$(date +'%d %b')" </b>"
+              color = rgb(cdd6f4)
+              font_size = 22
+              font_family = CascadiaCode
 
-            # Degrees
-            label {
-                monitor =
-                text = cmd[update:18000000] echo "<b>Feels like<big> $(curl -s 'wttr.in?format=%t' | tr -d '+') </big></b>"
-                color = rgb(89dceb)
-                font_size = 18
-                font_family = ${config.bestFont}
+              position = 50, -25
+              halign = left
+              valign = center
+          }
 
-                position = 0, 40
-                halign = center
-                valign = bottom
-            }
+          input-field {
+              monitor =
+              size = 1, 50
+              outline_thickness = 10
+              placeholder_text = <i></i>
+              hide_input = true
+              rounding = -1
+              outer_color = rgb(f5c2e7)
+              inner_color = rgb(1e1e2e)
+              fade_on_empty = true
 
-            input-field {
-                monitor =
-                size = 250, 50
-                outline_thickness = 3
-
-                dots_size = 0.26 # Scale of input-field height, 0.2 - 0.8
-                dots_spacing = 0.64 # Scale of dots' absolute size, 0.0 - 1.0
-                dots_center = true
-
-                rounding = 22
-                outer_color = rgb(1e1e2e)
-                inner_color = rgb(1e1e2e)
-                font_color = rgb(cdd6f4)
-                fade_on_empty = true
-                placeholder_text = <i>Password...</i> # Text rendered in the input box when it's empty.
-
-                position = 0, 120
-                halign = center
-                valign = bottom
-            }
+              position = -50, 50
+              halign = right
+              valign = bottom
+          }
           '';
         };
       };

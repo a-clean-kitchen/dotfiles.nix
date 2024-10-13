@@ -188,7 +188,8 @@ in {
 
           bind = $mainMod, space, exec, wofi --show drun
           layerrule = blur, logout_dialog
-          bind = $mainMod, l, exec, ~/${config.graphical.wlogout.homePath}
+          bind = CTRL_ALT, Delete, exec, ~/${config.graphical.wlogout.homePath}
+          bind = $mainMod, l, exec, hyprlock
         '';
         systemd = {
           enable = true;
