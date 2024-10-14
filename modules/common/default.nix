@@ -36,7 +36,7 @@ in {
     dotfilesPath = mkOption {
       type = types.path;
       description = "Path of dotfiles repository.";
-      default = config.homePath + "/wksp/dotfiles";
+      default = config.homePath + "/wksp/repos/dotfiles";
     };
     dotfilesRepo = mkOption {
       type = types.str;

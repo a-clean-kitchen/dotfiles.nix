@@ -54,7 +54,7 @@ in
               shadow_passes = 3
               shadow_size = 4
 
-              position = 0, 220
+              position = 50, 220
               halign = left
               valign = center
           }
@@ -69,7 +69,7 @@ in
               shadow_passes = 3
               shadow_size = 4
 
-              position = 0, 80
+              position = 50, 80
               halign = left
               valign = center
           }
@@ -82,7 +82,7 @@ in
               font_size = 22
               font_family = CascadiaCode
 
-              position = 50, 0
+              position = 100, 0
               halign = left
               valign = center
           }
@@ -95,13 +95,14 @@ in
               font_size = 22
               font_family = CascadiaCode
 
-              position = 50, -25
+              position = 100, -25
               halign = left
               valign = center
           }
 
           input-field {
               monitor =
+              font_family = CascadiaCode
               size = 1, 50
               outline_thickness = 10
               placeholder_text = <i></i>
