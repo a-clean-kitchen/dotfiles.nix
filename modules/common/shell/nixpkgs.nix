@@ -53,7 +53,7 @@
         };
         proj = {
           body = ''
-            commandline -r "cd $(find ~/wksp/repos ~/wksp/spaces ~/wksp/refDots -maxdepth 1 | fzf)"
+            commandline -r "cd $(find ~/wksp/repos/* ~/wksp/spaces/* -maxdepth 0 -type d | fzf)"
             commandline --function execute
           '';
         };

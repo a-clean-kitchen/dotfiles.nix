@@ -27,10 +27,15 @@ in {
     programs = {
       dconf.enable = mkDefault true;
     };
+    xdg.portal = {
+      enable = true;
+      extraPortals = with pkgs; [ xdg-desktop-portal-hyprland ];
+      config.common.default = "*";
+    };
     home-manager.users.${config.user} = {
       home.packages = with pkgs; [
         xdg-desktop-portal-gtk
-        xdg-desktop-portal-hyprland
+        # xdg-desktop-portal-hyprland
         wl-clipboard
       ];
       xdg.configFile = {
