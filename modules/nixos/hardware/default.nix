@@ -4,7 +4,7 @@
   imports = [
     ./wifi.nix
     ./server.nix
-    # ./networking.nix
+    ./networking.nix
     ./presets
   ];
 

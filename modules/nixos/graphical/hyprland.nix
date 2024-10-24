@@ -35,7 +35,7 @@ in {
     home-manager.users.${config.user} = {
       home.packages = with pkgs; [
         xdg-desktop-portal-gtk
-        # xdg-desktop-portal-hyprland
+        xdg-desktop-portal-hyprland
         wl-clipboard
       ];
       xdg.configFile = {
@@ -57,6 +57,9 @@ in {
       };
       wayland.windowManager.hyprland = {
         enable = true;
+        systemd = {
+          enable = true;
+        };
         extraConfig = /*hyprlang*/ ''
           $terminal = kitty
           $configs = $HOME/.config/hypr/conf
@@ -93,30 +96,30 @@ in {
           }
 
           general {
-              gaps_in=8
-              gaps_out=15
-              border_size=5
-              col.active_border=0xfff5c2e7
-              col.inactive_border=0xff45475a
+              gaps_in = 8
+              gaps_out = 15
+              border_size = 5
+              col.active_border = 0xfff5c2e7
+              col.inactive_border = 0xff45475a
               # apply_sens_to_raw=0 # whether to apply the sensitivity to raw input (e.g. used by games where you aim using your mouse)
           }
 
           decoration {
               drop_shadow = true
-              shadow_range=100
-              shadow_render_power=5
-              col.shadow= 0x33000000
-              col.shadow_inactive=0x22000000
-              rounding=15
+              shadow_range = 100
+              shadow_render_power = 5
+              col.shadow = 0x33000000
+              col.shadow_inactive = 0x22000000
+              rounding = 15
           }
 
           animations {
               enabled = yes
-              bezier=overshot,0.13,0.99,0.29,1.1
-              animation=windows,1,4,overshot,slide
-              animation=border,1,10,default
-              animation=fade,1,10,default
-              animation=workspaces,1,6,overshot,slidevert
+              bezier = overshot,0.13,0.99,0.29,1.1
+              animation = windows,1,4,overshot,slide
+              animation = border,1,10,default
+              animation = fade,1,10,default
+              animation = workspaces,1,6,overshot,slidevert
           }
 
           dwindle {
@@ -191,14 +194,17 @@ in {
           bindm = $mainMod, mouse:272, movewindow
           bindm = $mainMod, mouse:273, resizewindow
 
-          bind = $mainMod, space, exec, wofi --show drun
+          bind = $mainMod, space, exec, tofi-drun
+
           layerrule = blur, logout_dialog
           bind = CTRL_ALT, Delete, exec, ~/${config.graphical.wlogout.homePath}
           bind = $mainMod, l, exec, hyprlock
+
+          windowrule = float, title:^(projdrop-launcher)$
+          windowrule = maximize, title:^(projdrop-launcher)$
+          windowrule = move center, title:^(projdrop-launcher)$
+          bind = $mainMod, D, exec, ${config.graphical.runbars.projDropScript} TERMINAL
         '';
-        systemd = {
-          enable = true;
-        };
       };
     };
   };

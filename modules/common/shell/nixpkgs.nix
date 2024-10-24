@@ -13,6 +13,7 @@
         nr = "rebuild-nixos";
         nro = "rebuild-nixos offline";
         hm = "rebuild-home";
+        cdf = "cd $(${config.graphical.runbars.projDropScript}) && clear";
       };
       functions = {
         nix-shell-run = {
@@ -48,12 +49,6 @@
           body = ''
             git -C ${config.dotfilesPath} add --intent-to-add --all
             commandline -r "${pkgs.home-manager}/bin/home-manager switch --flake ${config.dotfilesPath}";
-            commandline --function execute
-          '';
-        };
-        proj = {
-          body = ''
-            commandline -r "cd $(find ~/wksp/repos/* ~/wksp/spaces/* -maxdepth 0 -type d | fzf)"
             commandline --function execute
           '';
         };

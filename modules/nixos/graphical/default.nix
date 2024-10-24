@@ -2,12 +2,12 @@
 
 {
   imports = [
-    ./wofi.nix
     ./fonts.nix
     ./greetd.nix
     ./waybar.nix
     ./baseCSS.nix
     ./browser.nix
+    ./runbars.nix
     ./wlogout.nix
     ./hyprland.nix
     ./hyprlock.nix

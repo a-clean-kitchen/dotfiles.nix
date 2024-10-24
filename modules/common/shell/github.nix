@@ -16,6 +16,8 @@ in
   
 
   config = mkIf cfg.enable {
-    home-manager.users.${config.user}.home.packages = with pkgs; [ gh ];
+    home-manager.users.${config.user} = {
+      home.packages = with pkgs; [ gh ];
+    };
   };
 }

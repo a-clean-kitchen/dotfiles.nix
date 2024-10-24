@@ -15,19 +15,22 @@ in
     };
   
 
-  config = mkIf (cfg.enable && config.physical && !config.networking.networkmanager.enable) {
-    # Enables wireless support via wpa_supplicant.
-    networking.wireless.iwd = {
-      enable = true;
-      settings = {
-        Settings = {
-          AutoConnect = true;
+  config = mkIf (cfg.enable && config.physical) {
+    networking = {
+      wireless.iwd = {
+        enable = true;
+        settings = {
+          Settings = {
+            AutoConnect = true;
+          };
         };
+      };
+      networkmanager = {
+        wifi.backend = "iwd";
       };
     };
 
-    home-manager.users.${config.user}.home.packages = with pkgs; [ iwgtk ];
-    
+    # environment.systemPackages = [ pkgs.iwgtk ];
     # Allows the user to control the WiFi settings.
     networking.wireless.userControlled.enable = true; 
   };
