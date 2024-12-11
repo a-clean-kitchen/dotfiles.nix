@@ -74,7 +74,7 @@ in {
         XDG_DATA_HOME   = "$HOME/.local/share";
         XDG_BIN_HOME    = "$HOME/.local/bin";
       };
-      systemPackages = with pkgs; [ git tldr wget curl ];
+      systemPackages = with pkgs; [ git tldr wget curl gnumake ];
     };
 
     home-manager = {

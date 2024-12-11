@@ -14,7 +14,8 @@ in
 
   config = mkIf (config.gui.enable && pkgs.stdenv.isLinux) {
     fonts.packages = with pkgs; [
-      (nerdfonts.override { fonts = [ bestFont ]; })
+      # turn this into conditional
+      cascadia-code
     ];
 
     home-manager.users.${config.user} = {

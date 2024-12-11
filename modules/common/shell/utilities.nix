@@ -9,6 +9,9 @@
 
         # find it 
         ripgrep
+        
+        # per-proj dependency management
+        devbox
       ];
     };
   };

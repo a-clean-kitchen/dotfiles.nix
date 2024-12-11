@@ -80,62 +80,64 @@ in {
           
           # For all categories, see https://wiki.hyprland.org/Configuring/Variables/
           input {
-              kb_layout = us
-              kb_variant =
-              kb_model =
-              kb_options =
-              kb_rules =
+            kb_layout = us
+            kb_variant =
+            kb_model =
+            kb_options =
+            kb_rules =
 
-              follow_mouse = 1
+            follow_mouse = 1
 
-              touchpad {
-                  natural_scroll = no
-              }
+            touchpad {
+              natural_scroll = no
+            }
 
-              sensitivity = 0 # -1.0 to 1.0, 0 means no modification.
+            sensitivity = 0 # -1.0 to 1.0, 0 means no modification.
           }
 
           general {
-              gaps_in = 8
-              gaps_out = 15
-              border_size = 5
-              col.active_border = 0xfff5c2e7
-              col.inactive_border = 0xff45475a
-              # apply_sens_to_raw=0 # whether to apply the sensitivity to raw input (e.g. used by games where you aim using your mouse)
+            gaps_in = 8
+            gaps_out = 15
+            border_size = 5
+            col.active_border = 0xfff5c2e7
+            col.inactive_border = 0xff45475a
+            # apply_sens_to_raw=0 # whether to apply the sensitivity to raw input (e.g. used by games where you aim using your mouse)
           }
 
           decoration {
-              drop_shadow = true
-              shadow_range = 100
-              shadow_render_power = 5
-              col.shadow = 0x33000000
-              col.shadow_inactive = 0x22000000
-              rounding = 15
+            shadow {
+              enabled = true
+              range = 100
+              render_power = 5
+              color = 0x33000000
+              color_inactive = 0x22000000
+            }
+            rounding = 15
           }
 
           animations {
-              enabled = yes
-              bezier = overshot,0.13,0.99,0.29,1.1
-              animation = windows,1,4,overshot,slide
-              animation = border,1,10,default
-              animation = fade,1,10,default
-              animation = workspaces,1,6,overshot,slidevert
+            enabled = yes
+            bezier = overshot,0.13,0.99,0.29,1.1
+            animation = windows,1,4,overshot,slide
+            animation = border,1,10,default
+            animation = fade,1,10,default
+            animation = workspaces,1,6,overshot,slidevert
           }
 
           dwindle {
-              # See https://wiki.hyprland.org/Configuring/Dwindle-Layout/ for more
-              pseudotile = yes # master switch for pseudotiling. Enabling is bound to mainMod + P in the keybinds section below
-              preserve_split = yes # you probably want this
+            # See https://wiki.hyprland.org/Configuring/Dwindle-Layout/ for more
+            pseudotile = yes # master switch for pseudotiling. Enabling is bound to mainMod + P in the keybinds section below
+            preserve_split = yes # you probably want this
           }
 
           master {
-              # See https://wiki.hyprland.org/Configuring/Master-Layout/ for more
-              # new_is_master = true
+            # See https://wiki.hyprland.org/Configuring/Master-Layout/ for more
+            # new_is_master = true
           }
 
           gestures {
-              # See https://wiki.hyprland.org/Configuring/Variables/ for more
-              workspace_swipe = ${if (config.laptop) then "on" else "off"}
+            # See https://wiki.hyprland.org/Configuring/Variables/ for more
+            workspace_swipe = ${if (config.laptop) then "on" else "off"}
           }
 
           windowrulev2 = suppressevent maximize, class:.* # You'll probably like this.
