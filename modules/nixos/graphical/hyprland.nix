@@ -29,13 +29,16 @@ in {
     };
     xdg.portal = {
       enable = true;
-      extraPortals = with pkgs; [ xdg-desktop-portal-hyprland ];
+      extraPortals = with pkgs; [ 
+        xdg-desktop-portal-hyprland
+        xdg-desktop-portal-gtk
+        xdg-desktop-portal-wlr
+        xdg-desktop-portal
+      ];
       config.common.default = "*";
     };
     home-manager.users.${config.user} = {
       home.packages = with pkgs; [
-        xdg-desktop-portal-gtk
-        xdg-desktop-portal-hyprland
         wl-clipboard
       ];
       xdg.configFile = {
@@ -49,6 +52,7 @@ in {
 
           ${if config.graphical.waybar.enable then "exec-once = waybar &" else ""}
           ${if config.graphical.hypridle.enable then "exec-once = hypridle &" else ""}
+          ${if config.graphical.dunst.enable then "exec-once = dunst &" else ""}
 
           exec-once = wl-paste --type text --watch cliphist store 
           exec-once = wl-paste --type image --watch cliphist store
@@ -77,7 +81,9 @@ in {
           # Some default env vars.
           env = XCURSOR_SIZE,24
           env = QT_QPA_PLATFORMTHEME,qt5ct # change to qt6ct if you have that
-          
+          env = TERM,xterm-$terminal
+          env = EDITOR,nvim
+
           # For all categories, see https://wiki.hyprland.org/Configuring/Variables/
           input {
             kb_layout = us
@@ -153,6 +159,7 @@ in {
           bind = $mainMod, V, togglefloating, 
           bind = $mainMod, P, pseudo, # dwindle
           bind = $mainMod, J, togglesplit, # dwindle
+          bind = $mainMod, F, fullscreen,
 
           # Move focus with mainMod + arrow keys
           bind = $mainMod, left, movefocus, l
@@ -206,6 +213,9 @@ in {
           windowrule = maximize, title:^(projdrop-launcher)$
           windowrule = move center, title:^(projdrop-launcher)$
           bind = $mainMod, D, exec, ${config.graphical.runbars.projDropScript} TERMINAL
+
+          windowrule = float, title:^(Picture-in-Picture)$
+          windowrule = size 240 135, title:^(Picture-in-Picture)$
         '';
       };
     };

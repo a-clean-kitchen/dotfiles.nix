@@ -18,6 +18,8 @@
       
       overlays = [
         (import ./overlays/nvim4.nix inputs)
+        # (import ./overlays/ghostty.nix inputs)
+        (import ./overlays/zen-browser.nix inputs)
       ];
 
       # Extend lib with personal functions
@@ -93,8 +95,18 @@
     };
 
     nvim4 = {
-      url = "github:a-clean-kitchen/nvim4/main";
+      url = "github:a-clean-kitchen/nvim4";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    
+    # Not in nixpkgs yet
+    zen-browser = {
+      url = "github:youwen5/zen-browser-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    # ghostty = {
+    #   url = "github:ghostty-org/ghostty";
+    # };
   };
 }

@@ -104,7 +104,7 @@ in
             position = "top";
             "margin-bottom" = -15;
             "modules-left" = [ "hyprland/workspaces" ];
-            "modules-right" = [ "custom/cycle_wall" "custom/expand" ];
+            "modules-right" = [ "custom/cycle_wall" "custom/expand" "cpu" ];
             "hyprland/workspaces" = {
               format = "{icon}";
               "format-active" = " {icon} ";
@@ -120,6 +120,19 @@ in
               format = "{}";
               "on-click" = "${config.graphical.waybar.expandLockScript}";
               exec = "${config.graphical.waybar.utilScript} arrow-icon";
+            };
+            cpu = {
+                interval = 1;
+                format = "{icon0} {icon1} {icon2} {icon3}";
+                "format-icons" = ["▁" "▂" "▃" "▄" "▅" "▆" "▇" "█"];
+            };
+            "idle_inhibitor" = {
+              inherit tooltip;
+              format = "{icon}";
+              "format-icons" = {
+                activated = "";
+                deactivated = "";
+              };
             };
           };
         };
@@ -177,7 +190,8 @@ in
             animation: gradient 10s ease infinite;
             color: #fff;
         }
-
+        
+        #cpu,
         #custom-cycle_wall,
         #custom-expand {
             padding: 0 10px;
@@ -199,6 +213,16 @@ in
             font-weight:  bolder;
             padding: 5px;
             border-radius: 15px;
+        }
+
+        #cpu {
+            background: rgb(180,190,254);
+            background: linear-gradient(52deg, rgba(180,190,254,1) 0%, rgba(137,220,235,1) 32%, rgba(137,180,250,1) 72%, rgba(166,227,161,1) 100%); 
+            background-size: 300% 300%;
+            animation: gradient 20s ease infinite;
+            text-shadow: 0 0 5px rgba(0, 0, 0, 0.377);
+            /* background-color: #b4befe; */
+            color: 	#fff;
         }
         '';
       };

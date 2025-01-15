@@ -17,8 +17,17 @@ in
 
   config = mkIf (cfg.enable && config.gui.enable) {
     home-manager.users.${config.user} = {
-      programs.chromium = {
-        enable = true;
+      home.packages = with pkgs; [
+        zen-browser
+      ];
+
+      xdg.desktopEntries."zen" = {
+        exec = "zen %U";
+        name = "zen";
+        genericName = "Web Browser";
+        terminal = false;
+        categories = [ "Application" "Network" "WebBrowser" ];
+        mimeType = [ "text/html" "text/xml" ];
       };
     };
   };

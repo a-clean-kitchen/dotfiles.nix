@@ -54,7 +54,7 @@ in
               shadow_passes = 3
               shadow_size = 4
 
-              position = 50, 220
+              position = 0, 220
               halign = left
               valign = center
           }
@@ -69,12 +69,12 @@ in
               shadow_passes = 3
               shadow_size = 4
 
-              position = 50, 80
+              position = 0, 80
               halign = left
               valign = center
           }
 
-          # Today
+          # Day of week
           label {
               monitor =
               text = cmd[update:18000000] echo "<b><big> "$(date +'%A')" </big></b>"
@@ -82,12 +82,12 @@ in
               font_size = 22
               font_family = CascadiaCode
 
-              position = 100, 0
+              position = 85, 0
               halign = left
               valign = center
           }
 
-          # Week
+          # Month and it's day
           label {
               monitor =
               text = cmd[update:18000000] echo "<b> "$(date +'%d %b')" </b>"
@@ -95,7 +95,7 @@ in
               font_size = 22
               font_family = CascadiaCode
 
-              position = 100, -25
+              position = 85, -25
               halign = left
               valign = center
           }
