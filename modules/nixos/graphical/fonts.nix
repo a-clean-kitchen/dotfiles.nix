@@ -13,12 +13,16 @@ in
   
 
   config = mkIf (config.gui.enable && pkgs.stdenv.isLinux) {
-    fonts.packages = with pkgs; [
-      # turn this into conditional
-      cascadia-code
+    fonts.packages = with pkgs.nerd-fonts; [
+      caskaydia-cove
+      caskaydia-mono
     ];
 
     home-manager.users.${config.user} = {
+      home.packages = with pkgs.nerd-fonts; [
+        caskaydia-cove
+        caskaydia-mono
+      ];
       programs.kitty.font.name = bestFont;
     };
   };

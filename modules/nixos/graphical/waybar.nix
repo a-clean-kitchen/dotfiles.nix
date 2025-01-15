@@ -104,7 +104,7 @@ in
             position = "top";
             "margin-bottom" = -15;
             "modules-left" = [ "hyprland/workspaces" ];
-            "modules-right" = [ "custom/cycle_wall" "custom/expand" "cpu" ];
+            "modules-right" = [ "custom/cycle_wall" "custom/expand" "cpu" "battery" ];
             "hyprland/workspaces" = {
               format = "{icon}";
               "format-active" = " {icon} ";
@@ -122,9 +122,17 @@ in
               exec = "${config.graphical.waybar.utilScript} arrow-icon";
             };
             cpu = {
-                interval = 1;
-                format = "{icon0} {icon1} {icon2} {icon3}";
-                "format-icons" = ["▁" "▂" "▃" "▄" "▅" "▆" "▇" "█"];
+              interval = 1;
+              format = "{icon0} {icon1} {icon2} {icon3}";
+              "format-icons" = ["▁" "▂" "▃" "▄" "▅" "▆" "▇" "█"];
+            };
+            battery = {
+              states = {
+                warning = 50;
+                critical = 20;
+              };
+              format = "{icon}";
+              "format-icons" = [" " " " " " " " " "];
             };
             "idle_inhibitor" = {
               inherit tooltip;
@@ -167,7 +175,7 @@ in
         }
 
         #workspaces button {
-            box-shadow: rgba(0, 0, 0, 0.116) 2 2 5 2px;
+            box-shadow: rgba(0, 0, 0, 0.116) 2px 2px 5px 2px;
             background-color: #fff ;
             border-radius: 15px;
             margin-right: 10px;
@@ -180,7 +188,7 @@ in
 
         #workspaces button.active {
             padding-right: 20px;
-            box-shadow: rgba(0, 0, 0, 0.288) 2 2 5 2px;
+            box-shadow: rgba(0, 0, 0, 0.288) 2px 2px 5px 2px;
             text-shadow: 0 0 5px rgba(0, 0, 0, 0.377);
             padding-left: 20px;
             padding-bottom: 3px;
@@ -192,13 +200,14 @@ in
         }
         
         #cpu,
+        #battery,
         #custom-cycle_wall,
         #custom-expand {
             padding: 0 10px;
             border-radius: 15px;
             background-color: #cdd6f4;
             color: #516079;
-            box-shadow: rgba(0, 0, 0, 0.116) 2 2 5 2px;
+            box-shadow: rgba(0, 0, 0, 0.116) 2px 2px 5px 2px;
             margin-top: 10px;
             margin-bottom: 10px;
             margin-right: 10px;
@@ -223,6 +232,36 @@ in
             text-shadow: 0 0 5px rgba(0, 0, 0, 0.377);
             /* background-color: #b4befe; */
             color: 	#fff;
+        }
+
+        #battery.charging, #battery.plugged {
+            background-color: #94e2d5 ;
+        }
+
+        #battery {
+            background-color: #fff;
+            color:#a6e3a1;
+            font-weight: bolder;
+            font-size: 20px;
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+
+        @keyframes blink {
+            to {
+                background-color: #f9e2af;
+                color:#96804e;
+            }
+        }
+
+        #battery.critical:not(.charging) {
+            background-color:  #f38ba8;
+            color:#bf5673;
+            animation-name: blink;
+            animation-duration: 0.5s;
+            animation-timing-function: linear;
+            animation-iteration-count: infinite;
+            animation-direction: alternate;
         }
         '';
       };
