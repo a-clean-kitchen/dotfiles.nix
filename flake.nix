@@ -1,10 +1,10 @@
 {
   description = "My Dotfiles: Managed using Nix.";
 
-  outputs = inputs @ { self, nixpkgs, ... }: 
+  outputs = inputs @ { nixpkgs, home-manager, ... }: 
     let
       globals = let domain = "quade.dev";
-      in rec {
+      in {
         user = "qm";
         fullName = "Quade Mashaw";
         gitName = "a-clean-kitchen";
@@ -18,6 +18,8 @@
       
       overlays = [
         (import ./overlays/nvim4.nix inputs)
+        # (import ./overlays/ghostty.nix inputs)
+        (import ./overlays/zen-browser.nix inputs)
       ];
 
       # Extend lib with personal functions
@@ -26,36 +28,52 @@
 
       pkgs = import nixpkgs {
         inherit system;
+        config = {
+          allowUnfree = true;
+        };
       };
+
+      hmConfig = nixosDerivedModules: home-manager.lib.homeManagerConfiguration {
+        inherit pkgs;
+        modules = [(
+            { lib, config, ... }:
+            {
+              options.home.news.json.output = lib.mkOption {
+                type = lib.types.package;
+                default = pkgs.writeText "hm-news.json"
+                  (builtins.toJSON { inherit (config.news) display entries; } );
+                description = "don't ask";
+              };
+            })
+        ];
+      } // nixosDerivedModules;
     in rec {
       # nix-shell
       devShells."${system}" = { default = import ./shell.nix { inherit pkgs; }; };
 
       nixosConfigurations = {
-        DeskBocks = import ./hosts/DeskBocks { inherit inputs globals overlays; };  
-        Junker = import ./hosts/Junker { inherit inputs globals overlays; };
+        deskBocks = import ./hosts/DeskBocks { inherit inputs globals overlays; };  
+        junker = import ./hosts/Junker { inherit inputs globals overlays; };
       };
       
-      # diskoConfigurations = { root = nixosConfigurations.DeskBocks.config; };
-
       homeConfigurations = {
-        DeskBocks = nixosConfigurations.DeskBocks.config.home-manager.users.${globals.user};
+        deskBocks = nixosConfigurations.deskBocks.config.home-manager.users.${globals.user};
+        "${globals.user}@junker" = nixosConfigurations.junker.config.home-manager.users.${globals.user};
       };
 
-      # This is where I'm having nixd get all it's facts from
-      nixdEntry = (lib.nixosSystem {
-        system = "x86_64-linux";
-        modules = [
-          globals
-          inputs.home-manager.nixosModules.home-manager
-          ./modules/nixos 
-          ./modules/common
-        ];
-        specialArgs = {
-          inherit pkgs;
+      packages = {
+        "${system}" = {
+          # genuinely, this is not ok
+          homeConfigurations = {
+            "${globals.user}@junker" = let
+              cfg = nixosConfigurations.junker.config.home-manager.users.${globals.user};
+            in  {
+              activationPackage = cfg.home.activationPackage;  
+              config.news.json.output = cfg.news.json.output; 
+            };
+          };
         };
-      }).options // {lib = lib; builtins = builtins;};
-
+      };
     };
 
   inputs = {
@@ -78,7 +96,17 @@
 
     nvim4 = {
       url = "github:a-clean-kitchen/nvim4";
-      # inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
+    
+    # Not in nixpkgs yet
+    zen-browser = {
+      url = "github:youwen5/zen-browser-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    # ghostty = {
+    #   url = "github:ghostty-org/ghostty";
+    # };
   };
 }

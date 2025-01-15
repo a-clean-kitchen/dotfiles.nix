@@ -6,6 +6,12 @@
       home.packages = with pkgs; [
         # JSON stuff
         jq
+
+        # find it 
+        ripgrep
+        
+        # per-proj dependency management
+        devbox
       ];
     };
   };

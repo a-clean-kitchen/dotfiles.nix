@@ -1,14 +1,28 @@
 { config, lib, pkgs, ... }:
 
-let 
+let
   bestFont = "CascadiaCode";
-in {
-  config = lib.mkIf (config.gui.enable && pkgs.stdenv.isLinux) {
-    fonts.packages = with pkgs; [
-      (nerdfonts.override { fonts = [ bestFont ]; })
+  inherit (lib) mkIf mkOption types;
+in
+{
+  options.bestFont = mkOption {
+    type = types.str;
+    default = bestFont;
+    description = "use the literal best font";
+  };
+  
+
+  config = mkIf (config.gui.enable && pkgs.stdenv.isLinux) {
+    fonts.packages = with pkgs.nerd-fonts; [
+      caskaydia-cove
+      caskaydia-mono
     ];
 
     home-manager.users.${config.user} = {
+      home.packages = with pkgs.nerd-fonts; [
+        caskaydia-cove
+        caskaydia-mono
+      ];
       programs.kitty.font.name = bestFont;
     };
   };

@@ -22,7 +22,7 @@ inputs.nixpkgs.lib.nixosSystem {
      
       # Boot from a usb
       # Set password for root: sudo -s; passwd
-      # nix run github:nix-community/nixos-anywhere -- --flake .#DeskBocks -L root@ip.or.host.name
+      # nix run github:nix-community/nixos-anywhere -- --flake .#junker -L root@ip.or.host.name
       disko = {
         enableConfig = true;
         devices = (import ../../disks/root.nix { disk = "/dev/sda"; });
@@ -37,6 +37,7 @@ inputs.nixpkgs.lib.nixosSystem {
       # he just a baby :,)
       nix.settings.cores = 2;
 
+      time.timeZone = "America/New_York";
       hardware.enableRedistributableFirmware = true;
       # A key of sorts
       passwordHash = inputs.nixpkgs.lib.fileContents ../../misc/password.sha512;

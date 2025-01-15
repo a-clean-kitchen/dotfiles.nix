@@ -4,3 +4,6 @@ dead-code:
 
 flake-check:
 	nix run github:DeterminateSystems/flake-checker
+
+lint:
+	nix run nixpkgs#statix -- check

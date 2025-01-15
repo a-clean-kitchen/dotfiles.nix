@@ -13,6 +13,7 @@
         nr = "rebuild-nixos";
         nro = "rebuild-nixos offline";
         hm = "rebuild-home";
+        cdf = "cd $(${config.graphical.runbars.projDropScript}) && clear";
       };
       functions = {
         nix-shell-run = {
@@ -40,14 +41,14 @@
                 set option "--option substitute false"
             end
             git -C ${config.dotfilesPath} add --intent-to-add --all
-            commandline -r "doas nixos-rebuild switch $option --flake ${config.dotfilesPath}#${config.networking.hostName}"
+            commandline -r "sudo nixos-rebuild switch $option --flake ${config.dotfilesPath}#${config.networking.hostName}"
             commandline --function execute
           '';
         };
         rebuild-home = {
           body = ''
             git -C ${config.dotfilesPath} add --intent-to-add --all
-            commandline -r "${pkgs.home-manager}/bin/home-manager switch --flake ${config.dotfilesPath}#${config.networking.hostName}";
+            commandline -r "${pkgs.home-manager}/bin/home-manager switch --flake ${config.dotfilesPath}";
             commandline --function execute
           '';
         };

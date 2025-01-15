@@ -3,8 +3,9 @@
 {
   imports = [
     ./wifi.nix
+    ./audio.nix
     ./server.nix
-    # ./networking.nix
+    ./networking.nix
     ./presets
   ];
 
