@@ -54,6 +54,7 @@
       nixosConfigurations = {
         deskBocks = import ./hosts/DeskBocks { inherit inputs globals overlays; };  
         junker = import ./hosts/Junker { inherit inputs globals overlays; };
+        junkr = import ./hosts/Junkr { inherit inputs globals overlays; };
       };
       
       homeConfigurations = {
