@@ -60,6 +60,7 @@
       homeConfigurations = {
         deskBocks = nixosConfigurations.deskBocks.config.home-manager.users.${globals.user};
         "${globals.user}@junker" = nixosConfigurations.junker.config.home-manager.users.${globals.user};
+        "${globals.user}@junkr" = nixosConfigurations.junkr.config.home-manager.users.${globals.user};
       };
 
       packages = {
