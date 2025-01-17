@@ -26,15 +26,8 @@ inputs.nixpkgs.lib.nixosSystem {
       # # Look in Makefile for an example init command once you have a root password and ip/hostname
       disko = {
         enableConfig = true;
-        devices = (import ../../disks/root.nix { disk = "/dev/sda"; });
+        devices = (import ../../disks/root.nix { disk = "/dev/nvme0n1"; });
       };
-
-      # # I will never touch these
-      # boot.initrd.availableKernelModules = 
-      #   [ "ahci" "xhci_pci" "usb_storage" "sd_mod" ];
-      #
-      # boot.kernelModules = [ "kvm-intel" ];
-      # hardware.enableRedistributableFirmware = true;
 
       time.timeZone = "America/New_York";
       # A key of sorts
