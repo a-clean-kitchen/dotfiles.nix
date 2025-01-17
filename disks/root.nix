@@ -11,19 +11,19 @@
             size = "512M";
             type = "EF00";
             label = "boot";
-            # device = "/dev/disk/by-label/boot";
+            device = "/dev/disk/by-partlabel/boot";
             content = {
               type = "filesystem";
               format = "vfat";
               mountpoint = "/boot";
-              extraArgs = [ "-n boot" ];
+              extraArgs = [ "-nboot" ];
             };
           };
           # Root partition ext4
           root = rec {
             size = "100%";
             label = "nixos";
-            # device = "/dev/disk/by-label/nixos";
+            # device = "/dev/disk/by-partlabel/nixos";
             content = {
               type = "filesystem";
               format = "ext4";
