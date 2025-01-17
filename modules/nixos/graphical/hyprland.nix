@@ -6,17 +6,22 @@ let
   inherit (lib) mkIf mkDefault mkOption types;
 in {
   options.graphical.hyprland = {
-      enable = mkOption {
-        type = types.bool;
-        default = true;
-        description = "enable hyprland";
-      };
-      
-      scriptsDir = mkOption {
-        type = types.path;
-        default = "/home/${config.user}/.config/hypr/scripts";
-      };
+    enable = mkOption {
+      type = types.bool;
+      default = true;
+      description = "enable hyprland";
     };
+    
+    scriptsDir = mkOption {
+      type = types.path;
+      default = "/home/${config.user}/.config/hypr/scripts";
+    };
+    
+    sixteenbynine = mkOption {
+      type = types.bool;
+      default = false;
+    };
+  };
   
   config = mkIf (cfg.enable && config.gui.enable) {
     environment.systemPackages = with pkgs; [
@@ -44,11 +49,11 @@ in {
       xdg.configFile = {
         "hypr/conf/startup.conf" = {
           text = /*hyprlang*/ ''
-          $wallDIR = $HOME/Pictures/wallpapers
-          exec-once = ${config.graphical.wallpapers.script} init $wallDIR/wanderer.jpg
-
           exec-once = dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
           exec-once = systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
+
+          $wallDIR = $HOME/Pictures/wallpapers
+          exec-once = ${config.graphical.wallpapers.script} init $wallDIR/wanderer.jpg
 
           ${if config.graphical.waybar.enable then "exec-once = waybar &" else ""}
           ${if config.graphical.hypridle.enable then "exec-once = hypridle &" else ""}
@@ -69,6 +74,8 @@ in {
           $configs = $HOME/.config/hypr/conf
 
           source = $configs/startup.conf
+
+          ${if cfg.sixteenbynine then "monitor = , 1920x1080@60, 0x0, 1" else ""}
 
           misc {
             # sowwy hypr
@@ -209,13 +216,14 @@ in {
           bind = CTRL_ALT, Delete, exec, ~/${config.graphical.wlogout.homePath}
           bind = $mainMod, l, exec, hyprlock
 
-          windowrule = float, title:^(projdrop-launcher)$
+          windowrule = float, initialTitle:projdrop-launcher
           windowrule = maximize, title:^(projdrop-launcher)$
           windowrule = move center, title:^(projdrop-launcher)$
           bind = $mainMod, D, exec, ${config.graphical.runbars.projDropScript} TERMINAL
 
-          windowrule = float, title:^(Picture-in-Picture)$
-          windowrule = size 240 135, title:^(Picture-in-Picture)$
+          windowrulev2 = float, initialTitle:Picture-in-Picture
+          windowrulev2 = move center, initialTitle:Picture-in-Picture
+          windowrulev2 = size 800 450, initialTitle:Picture-in-Picture
         '';
       };
     };

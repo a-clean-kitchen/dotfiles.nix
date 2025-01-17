@@ -9,7 +9,7 @@
     ./waybar.nix
     ./baseCSS.nix
     ./browser.nix
-    # ./ghostty.nix
+    ./ghostty.nix
     ./runbars.nix
     ./wlogout.nix
     ./hyprland.nix
@@ -17,5 +17,6 @@
     ./hypridle.nix
     ./obsidian.nix
     ./wallpaper.nix
+    ./youtube-tui.nix
   ];
 }

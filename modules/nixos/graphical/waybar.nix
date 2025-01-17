@@ -127,12 +127,16 @@ in
               "format-icons" = ["▁" "▂" "▃" "▄" "▅" "▆" "▇" "█"];
             };
             battery = {
+              # Hide it when it's charging
+              format-charging = "";
+              format-plugged = "";
+
               states = {
                 warning = 50;
                 critical = 20;
               };
               format = "{icon}";
-              "format-icons" = [" " " " " " " " " "];
+              "format-icons" = [" " " " " " " " " "];
             };
             "idle_inhibitor" = {
               inherit tooltip;
@@ -244,7 +248,7 @@ in
             font-weight: bolder;
             font-size: 20px;
             padding-left: 15px;
-            padding-right: 15px;
+            padding-right: 10px;
         }
 
         @keyframes blink {

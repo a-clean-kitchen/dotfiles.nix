@@ -18,7 +18,7 @@
       
       overlays = [
         (import ./overlays/nvim4.nix inputs)
-        # (import ./overlays/ghostty.nix inputs)
+        (import ./overlays/ghostty.nix inputs)
         (import ./overlays/zen-browser.nix inputs)
       ];
 
@@ -73,6 +73,12 @@
               activationPackage = cfg.home.activationPackage;  
               config.news.json.output = cfg.news.json.output; 
             };
+            "${globals.user}@junkr" = let
+              cfg = nixosConfigurations.junkr.config.home-manager.users.${globals.user};
+            in  {
+              activationPackage = cfg.home.activationPackage;  
+              config.news.json.output = cfg.news.json.output; 
+            };
           };
         };
       };
@@ -107,8 +113,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # ghostty = {
-    #   url = "github:ghostty-org/ghostty";
-    # };
+    ghostty = {
+      url = "github:ghostty-org/ghostty";
+    };
   };
 }
