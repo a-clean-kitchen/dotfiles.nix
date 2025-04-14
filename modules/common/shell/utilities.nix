@@ -12,6 +12,8 @@
         
         # per-proj dependency management
         devbox
+
+        just
       ];
     };
   };

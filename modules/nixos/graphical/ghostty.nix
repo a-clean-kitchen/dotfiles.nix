@@ -22,12 +22,12 @@ in
       home.packages = with pkgs; [
         ghostty
       ];
-      xdg.desktopEntries."ghostty" = {
-        exec = "ghostty";
-        name = "ghostty";
-        genericName = "Terminal";
-        terminal = false;
-      };
+      # xdg.desktopEntries."ghostty" = {
+      #   exec = "ghostty";
+      #   name = "ghostty";
+      #   genericName = "Terminal";
+      #   terminal = false;
+      # };
     };
   };
 }

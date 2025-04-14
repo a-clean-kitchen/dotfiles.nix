@@ -1,4 +1,4 @@
-.PHONY: dead-code flake-check
+.PHONY: dead-code flake-check agenix-shell
 dead-code:
 	nix run github:astro/deadnix
 
@@ -8,10 +8,13 @@ flake-check:
 lint:
 	nix run nixpkgs#statix -- check
 
-# # Too initialize a machine
-# # https://github.com/nix-community/nixos-anywhere/blob/main/docs/reference.md
+agenix-shell:
+	nix shell github:ryantm/agenix#default
 
-# .PHONY: init-junkr
+# # To initialize a machine
+# # https://github.com/nix-community/nixos-anywhere/blob/main/docs/reference.md
 #
-# init-junkr:
-#  SSHPASS=temporaryPass nix run github:nix-community/nixos-anywhere -- --env-password --generate-hardware-config nixos-generate-config ./hosts/Junkr/hardware-configuration.nix --flake .#junkr -L --build-on-remote --target-host root@ip.or.host.name
+# .PHONY: init-machine
+#
+# init-machine:
+# 	SSHPASS=temporaryPass nix run github:nix-community/nixos-anywhere -- --env-password --generate-hardware-config nixos-generate-config ./hosts/DeskBocks/hardware-configuration.nix --flake .#deskBocks -L --build-on local --target-host root@192.168.0.99

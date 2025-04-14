@@ -9,7 +9,7 @@ in
   options.graphical.youtube-tui = {
     enable = mkOption {
       type = types.bool;
-      default = false;
+      default = true;
       description = "enable youtube-tui";
     };
   };
@@ -20,6 +20,7 @@ in
       home.packages = with pkgs; [
         youtube-tui
         catt
+        mpv
       ];
       xdg.desktopEntries."youtube-tui" = {
         exec = "kitty youtube-tui";

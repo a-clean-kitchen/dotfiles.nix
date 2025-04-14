@@ -12,19 +12,22 @@
         hostnames = {
           main = domain;
         };
+        publicKeys = [
+          "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMQcdy3fe9wP0zmx/TMPcZ3r4b38sitxg3ieTSkPbvju qm@junkr"
+        ];
       };
 
       system = "x86_64-linux";
       
       overlays = [
         (import ./overlays/nvim4.nix inputs)
-        (import ./overlays/ghostty.nix inputs)
         (import ./overlays/zen-browser.nix inputs)
+        # (import ./overlays/ghostty.nix inputs) # will re-visit eventually
       ];
 
-      # Extend lib with personal functions
-      lib = nixpkgs.lib.extend
-        (self: super: { my = import ./lib { inherit pkgs inputs; lib = self; }; });
+      # # Extend lib with personal functions
+      # lib = nixpkgs.lib.extend
+      #   (self: super: { my = import ./lib { inherit pkgs inputs; lib = self; }; });
 
       pkgs = import nixpkgs {
         inherit system;
@@ -32,21 +35,6 @@
           allowUnfree = true;
         };
       };
-
-      hmConfig = nixosDerivedModules: home-manager.lib.homeManagerConfiguration {
-        inherit pkgs;
-        modules = [(
-            { lib, config, ... }:
-            {
-              options.home.news.json.output = lib.mkOption {
-                type = lib.types.package;
-                default = pkgs.writeText "hm-news.json"
-                  (builtins.toJSON { inherit (config.news) display entries; } );
-                description = "don't ask";
-              };
-            })
-        ];
-      } // nixosDerivedModules;
     in rec {
       # nix-shell
       devShells."${system}" = { default = import ./shell.nix { inherit pkgs; }; };
@@ -58,8 +46,8 @@
       };
       
       homeConfigurations = {
-        deskBocks = nixosConfigurations.deskBocks.config.home-manager.users.${globals.user};
-        "${globals.user}@junker" = nixosConfigurations.junker.config.home-manager.users.${globals.user};
+        "${globals.user}@deskBocks" = nixosConfigurations.deskBocks.config.home-manager.users.${globals.user};
+        # "${globals.user}@junker" = nixosConfigurations.junker.config.home-manager.users.${globals.user};
         "${globals.user}@junkr" = nixosConfigurations.junkr.config.home-manager.users.${globals.user};
       };
 
@@ -106,15 +94,22 @@
       url = "github:a-clean-kitchen/nvim4";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     
     # Not in nixpkgs yet
     zen-browser = {
       url = "github:youwen5/zen-browser-flake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
-    ghostty = {
-      url = "github:ghostty-org/ghostty";
+    
+    # kept safe and away!
+    my-secrets = {
+      url = "git+ssh://git@github.com/a-clean-kitchen/seqrets.git?shallow=1";
+      flake = false;
     };
   };
 }

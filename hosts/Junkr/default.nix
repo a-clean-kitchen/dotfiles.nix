@@ -7,6 +7,7 @@ inputs.nixpkgs.lib.nixosSystem {
     globals
     inputs.disko.nixosModules.disko
     inputs.home-manager.nixosModules.home-manager
+    inputs.sops-nix.nixosModules.sops
     ../../modules/common
     ../../modules/nixos
     ./hardware-configuration.nix
@@ -15,15 +16,14 @@ inputs.nixpkgs.lib.nixosSystem {
       
       laptop = true;
       nixpkgs.overlays = overlays;      
-      publicKeys = [
-        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMQcdy3fe9wP0zmx/TMPcZ3r4b38sitxg3ieTSkPbvju"
-      ];
       services.openssh.enable = true;
       networking.hostName = "junkr";
  
       graphical = {
         hyprland.sixteenbynine = true;
       };
+
+      audio.bluetooth = true;
 
       # Boot from a usb
       # Set password for "nixos" user: passwd

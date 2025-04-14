@@ -47,14 +47,14 @@ in
           # Hours
           label {
               monitor =
-              text = cmd[update:1000] echo "<b><big> $(date +"%H") </big></b>"
+              text = cmd[update:1000] echo "<b><big>$(date +"%H")</big></b>"
               color = rgb(cba6f7)
-              font_size = 112
+              font_size = 128
               font_family = CascadiaCode
               shadow_passes = 3
               shadow_size = 4
 
-              position = 0, 220
+              position = 50, 220
               halign = left
               valign = center
           }
@@ -62,14 +62,14 @@ in
           # Minutes
           label {
               monitor =
-              text = cmd[update:1000] echo "<b><big> $(date +"%M") </big></b>"
+              text = cmd[update:1000] echo "<b><big>$(date +"%M")</big></b>"
               color = rgb(cba6f7)
-              font_size = 112
+              font_size = 128
               font_family = CascadiaCode
               shadow_passes = 3
               shadow_size = 4
 
-              position = 0, 80
+              position = 50, 80
               halign = left
               valign = center
           }
@@ -77,12 +77,12 @@ in
           # Day of week
           label {
               monitor =
-              text = cmd[update:18000000] echo "<b><big> "$(date +'%A')" </big></b>"
+              text = cmd[update:18000000] echo "<b><big>"$(date +'%A')"</big></b>"
               color = rgb(cdd6f4)
-              font_size = 22
+              font_size = 32
               font_family = CascadiaCode
 
-              position = 85, 0
+              position = 60, -5
               halign = left
               valign = center
           }
@@ -90,12 +90,12 @@ in
           # Month and it's day
           label {
               monitor =
-              text = cmd[update:18000000] echo "<b> "$(date +'%d %b')" </b>"
+              text = cmd[update:18000000] echo "<b>"$(date +'%d %b')"</b>"
               color = rgb(cdd6f4)
-              font_size = 22
+              font_size = 32
               font_family = CascadiaCode
 
-              position = 85, -25
+              position = 60, -40
               halign = left
               valign = center
           }
@@ -103,7 +103,7 @@ in
           input-field {
               monitor =
               font_family = CascadiaCode
-              size = 1, 50
+              size = 50, 50
               outline_thickness = 10
               placeholder_text = <i></i>
               hide_input = true
