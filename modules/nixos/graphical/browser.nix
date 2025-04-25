@@ -19,6 +19,9 @@ in
     home-manager.users.${config.user} = {
       home.packages = with pkgs; [
         zen-browser
+
+        # enable chromecasting
+        fx-cast-bridge
       ];
 
       xdg.desktopEntries."zen" = {

@@ -148,7 +148,7 @@ in
               "label" : "shutdown",
               "action" : "systemctl poweroff",
               "text" : "Shutdown",
-              "keybind" : "s"
+              "keybind" : "u"
           }
           {
               "label" : "reboot",
@@ -164,9 +164,9 @@ in
           }
           {
               "label" : "sleep",
-              "action" : "hyprlock && loginctl lock-session && systemctl sleep && hyprctl dispatch dpms on",
+              "action" : "loginctl lock-session && systemctl sleep # && hyprctl dispatch dpms on",
               "text" : "Sleep",
-              "keybind" : "h"
+              "keybind" : "s"
           }
           {
               "label" : "lock",

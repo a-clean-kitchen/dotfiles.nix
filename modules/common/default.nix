@@ -6,6 +6,7 @@ in {
   imports = [
     ./git.nix
     ./ssh.nix
+    ./sops.nix
     ./repos
     ./shell
     ./applications
