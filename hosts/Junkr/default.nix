@@ -3,6 +3,7 @@
 
 inputs.nixpkgs.lib.nixosSystem {
   system = "x86_64-linux";
+  specialArgs = { inherit inputs; };
   modules = [
     globals
     inputs.disko.nixosModules.disko
@@ -23,8 +24,6 @@ inputs.nixpkgs.lib.nixosSystem {
         hyprland.sixteenbynine = true;
       };
 
-      audio.bluetooth = true;
-
       # Boot from a usb
       # Set password for "nixos" user: passwd
       # # Look in Makefile for an example init command once you have a root password and ip/hostname
@@ -36,7 +35,7 @@ inputs.nixpkgs.lib.nixosSystem {
 
       time.timeZone = "America/New_York";
       # A key of sorts
-      passwordHash = inputs.nixpkgs.lib.fileContents ../../misc/password.sha512;
+      # passwordHash = inputs.nixpkgs.lib.fileContents ../../misc/password.sha512;
     }
   ];
 }

@@ -15,7 +15,10 @@ in
 
   config = mkIf cfg {
     physical = mkDefault true; 
-    audio.enable = mkDefault true;
+    harderware = {
+      audio.enable = mkDefault true;
+      bluetooth.enable = mkDefault true;
+    };
     wifi.enable = mkDefault true;
     gui.enable = mkDefault true;
     isNixos = mkDefault true;

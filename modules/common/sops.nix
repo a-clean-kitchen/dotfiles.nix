@@ -6,11 +6,6 @@ let
   inherit (lib) mkIf mkOption types;
 in
 {
-  imports = [
-    inputs.sops-nix.homeManagerModules.sops
-    inputs.sops-nix.nixosModules.sops
-  ];
-
   options.secrets.sops = {
     enable = mkOption {
       type = types.bool;
@@ -19,7 +14,7 @@ in
     };
 
     sopsFolder = mkOption {
-      type = types.string;
+      type = types.str;
       default = builtins.toString inputs.my-secrets + "/sops";
     };
   };
@@ -36,9 +31,16 @@ in
         "keys/private" = {
           owner = "root";
           group = "root";
+          mode = "0600";
           path = "/etc/ssh/ssh_host_ed25519_key";
         };
-        "keys/age" = {
+        "keys/public" = {
+          owner = "root";
+          group = "root";
+          mode = "0644";
+          path = "/etc/ssh/ssh_host_ed25519_key.pub";
+        };
+        "keys/age/txt" = {
           sopsFile = "${cfg.sopsFolder}/${config.user}.user.yaml";
           owner = config.users.users.${config.user}.name;
           inherit (config.users.users.${config.user}) group;
@@ -66,5 +68,6 @@ in
         mkdir -p ${ageFolder} || true
         chown -R ${user}:${group} ${config.homePath}/.config
       '';
+    passwordHash = config.sops.secrets."passwords/${config.user}".path;
   };
 }

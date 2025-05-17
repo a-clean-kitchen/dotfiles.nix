@@ -59,7 +59,7 @@ in
           source = config.graphical.wlogout.script;
         };
         "${path}/icons" = {
-          source = ./lockIcons;
+          source = ../../../assets/lockIcons;
           recursive = true;
         };
         "${path}/style.css" = {

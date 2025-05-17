@@ -6,6 +6,9 @@ let
   inherit (lib) mkIf mkOption types;
 in
 {
+  # imports = [
+  #   ../../prerolls/obsidian.preroll.nix
+  # ];
   options.graphical.obsidian = {
     enable = mkOption {
       type = types.bool;
@@ -25,9 +28,8 @@ in
         obsidian
       ];
       xdg.desktopEntries."obsidian" = {
-        exec = "obsidian";
+        exec = "obsidian %u";
         name = "obsidian";
-        genericName = "Terminal";
         terminal = false;
       };
     };

@@ -21,7 +21,7 @@ in
         hyprlock
       ];
       home.file."Pictures/lockpapers" = {
-        source = ./lockPapers;
+        source = ../../../../assets/lockPapers;
         recursive = true;
       };
       xdg.configFile = {

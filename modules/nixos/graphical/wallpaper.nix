@@ -36,7 +36,7 @@ in
 
       images = mkOption {
         type = types.path;
-        default = ./wallpapers;
+        default = ../../../assets/wallpapers;
         description = "directory with all the actual wallpaper images";
       };
     };

@@ -55,12 +55,12 @@
         "${system}" = {
           # genuinely, this is not ok
           homeConfigurations = {
-            "${globals.user}@junker" = let
-              cfg = nixosConfigurations.junker.config.home-manager.users.${globals.user};
-            in  {
-              activationPackage = cfg.home.activationPackage;  
-              config.news.json.output = cfg.news.json.output; 
-            };
+            # "${globals.user}@junker" = let
+            #   cfg = nixosConfigurations.junker.config.home-manager.users.${globals.user};
+            # in  {
+            #   activationPackage = cfg.home.activationPackage;  
+            #   config.news.json.output = cfg.news.json.output; 
+            # };
             "${globals.user}@junkr" = let
               cfg = nixosConfigurations.junkr.config.home-manager.users.${globals.user};
             in  {

@@ -5,16 +5,17 @@ let
 
   inherit (lib) mkIf mkDefault mkOption types;
 in {
+  imports = [
+    ./hypr/startup.nix
+    ./hypr/hypridle.nix
+    ./hypr/hyprlock.nix
+  ];
+
   options.graphical.hyprland = {
     enable = mkOption {
       type = types.bool;
       default = true;
       description = "enable hyprland";
-    };
-    
-    scriptsDir = mkOption {
-      type = types.path;
-      default = "/home/${config.user}/.config/hypr/scripts";
     };
     
     sixteenbynine = mkOption {
@@ -26,6 +27,9 @@ in {
   config = mkIf (cfg.enable && config.gui.enable) {
     environment.systemPackages = with pkgs; [
       fzf
+      xdg-desktop-portal-hyprland
+      xdg-desktop-portal-gtk
+      xdg-desktop-portal
     ];
     hardware.graphics.enable = mkDefault true;
     security.polkit.enable = mkDefault true;
@@ -37,7 +41,6 @@ in {
       extraPortals = with pkgs; [ 
         xdg-desktop-portal-hyprland
         xdg-desktop-portal-gtk
-        xdg-desktop-portal-wlr
         xdg-desktop-portal
       ];
       config.common.default = "*";
@@ -49,6 +52,7 @@ in {
       xdg.configFile = {
         "hypr/conf/startup.conf" = {
           text = /*hyprlang*/ ''
+          exec-once = ${config.graphical.hyprland.scripts.xdgNuke}
           exec-once = dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
           exec-once = systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
 
@@ -81,8 +85,9 @@ in {
             # sowwy hypr
             disable_hyprland_logo = true
             disable_splash_rendering = true
-
             font_family = ${config.bestFont}
+            # Needed for obsidian, I guess https://help.obsidian.md/web-clipper/troubleshoot#Obsidian+opens+but+only+the+file+name+is+saved
+            focus_on_activate = true
           }
           
           # Some default env vars.
@@ -224,6 +229,10 @@ in {
           windowrulev2 = float, initialTitle:Picture-in-Picture
           windowrulev2 = move center, initialTitle:Picture-in-Picture
           windowrulev2 = size 800 450, initialTitle:Picture-in-Picture
+
+          windowrulev2 = float, initialTitle:bluetui-window
+          windowrulev2 = move center, initialTitle:bluetui-window
+          windowrulev2 = size 800 600, initialTitle:bluetui-window
         '';
       };
     };

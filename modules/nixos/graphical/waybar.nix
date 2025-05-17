@@ -104,7 +104,12 @@ in
             position = "top";
             "margin-bottom" = -15;
             "modules-left" = [ "hyprland/workspaces" ];
-            "modules-right" = [ "custom/cycle_wall" "custom/expand" "cpu" "battery" ];
+            "modules-right" = [ 
+              "custom/cycle_wall"
+              "custom/expand" 
+              "cpu" 
+              "battery" 
+            ];
             "hyprland/workspaces" = {
               format = "{icon}";
               "format-active" = " {icon} ";
@@ -146,6 +151,7 @@ in
                 deactivated = "";
               };
             };
+            
           };
         };
         style = /*css*/ ''

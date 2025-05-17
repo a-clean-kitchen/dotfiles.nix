@@ -1,29 +1,26 @@
 { config, lib, pkgs, ... }:
 
 let
-  cfg = config.graphical.apps.discord;
+  cfg = config.graphical.ide.windsurf;
 
   inherit (lib) mkIf mkOption types;
 in
 {
-  options.graphical.apps.discord = {
+  options.graphical.ide.windsurf = {
     enable = mkOption {
       type = types.bool;
       default = true;
-      description = "enable discord";
+      description = "enable windsurf";
     };
   };
 
 
   config = mkIf cfg.enable {
     unfreePackages = [
-      "discord"
+      "windsurf"
     ];
-
     home-manager.users.${config.user} = {
-      home.packages = with pkgs; [
-        discord
-      ];
+      home.packages = with pkgs; [ windsurf ];
     };
   };
 }

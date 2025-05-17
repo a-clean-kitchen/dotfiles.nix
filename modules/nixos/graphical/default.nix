@@ -11,13 +11,13 @@
     ./waybar.nix
     ./baseCSS.nix
     ./browser.nix
+    ./discord.nix
     ./runbars.nix
     ./spotify.nix
     ./wlogout.nix
     ./hyprland.nix
-    ./hyprlock.nix
-    ./hypridle.nix
     ./obsidian.nix
+    ./windsurf.nix
     ./wallpaper.nix
   ];
 }
