@@ -1,29 +1,29 @@
 { config, lib, pkgs, ... }:
 
 let
-  cfg = config.graphical.ide.windsurf;
+  cfg = config.graphical.blender;
 
   inherit (lib) mkIf mkOption types;
 in
 {
-  options.graphical.ide.windsurf = {
+  options.graphical.blender = {
     enable = mkOption {
       type = types.bool;
       default = config.graphical.enable;
-      description = "enable windsurf";
+      description = "enable blender";
     };
   };
 
   config = mkIf cfg.enable {
     unfreePackages = [
-      "windsurf"
+      "blender"
     ];
 
     home-manager.users.${config.user} = {
-      home.packages = with pkgs; [ windsurf ];
-      xdg.desktopEntries."windsurf" = {
-        exec = "windsurf %u";
-        name = "windsurf";
+      home.packages = with pkgs; [ blender ];
+      xdg.desktopEntries."blender" = {
+        exec = "blender %u";
+        name = "blender";
         terminal = false;
       };
     };

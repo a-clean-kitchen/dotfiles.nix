@@ -20,11 +20,14 @@ in
           sleep 1
           $killall -e xdg-desktop-portal-hyprland
           $killall -e xdg-desktop-portal-wlr
+          $killall -e xdg-desktop-portal-gtk
           $killall xdg-desktop-portal
+          $portal
+          sleep 2
           $portalhyprland &
           sleep 2
-          $portal &
           $portalgtk &
+          
         '';
     };
   };

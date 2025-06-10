@@ -1,28 +1,27 @@
 { config, lib, pkgs, ... }:
 
 let
-  cfg = config.graphical.spotify;
+  cfg = config.graphical.video.playback;
 
   inherit (lib) mkIf mkOption types;
 in
 {
-  options.graphical.spotify = {
+  options.graphical.video.playback = {
     enable = mkOption {
       type = types.bool;
-      default = false;
-      description = "enable spotify";
+      default = config.graphical.enable;
+      description = "enable video playback tools";
     };
   };
 
 
   config = mkIf cfg.enable {
     home-manager.users.${config.user} = {
-      programs.spotify-player = {
+      # home.packages = with pkgs; [];
+      programs.mpv = {
         enable = true;
-        settings = {
-          client_id_command = "";
-        };
       };
     };
+
   };
 }

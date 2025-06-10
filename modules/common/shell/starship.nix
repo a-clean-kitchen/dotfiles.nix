@@ -111,6 +111,13 @@
       style = "bg:#86BBD8"
       format = '[ $symbol ($version) ]($style)'
 
+      [nix_shell]
+      disabled = true
+      impure_msg = '[impure shell](bold red)'
+      pure_msg = '[pure shell](bold green)'
+      unknown_msg = '[unknown shell](bold yellow)'
+      format = 'via [☃️ $state( \($name\))](bold blue) '
+
       [time]
       disabled = false
       time_format = "%R" # Hour:Minute Format

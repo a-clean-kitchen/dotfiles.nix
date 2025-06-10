@@ -6,15 +6,13 @@ let
   inherit (lib) mkIf mkDefault mkOption types;
 in {
   imports = [
-    ./hypr/startup.nix
-    ./hypr/hypridle.nix
-    ./hypr/hyprlock.nix
+    ./scripts/startup.nix
   ];
 
   options.graphical.hyprland = {
     enable = mkOption {
       type = types.bool;
-      default = true;
+      default = config.graphical.enable;
       description = "enable hyprland";
     };
     
@@ -22,14 +20,17 @@ in {
       type = types.bool;
       default = false;
     };
+    exclusiveHyprConfig = mkOption {
+      type = types.lines;
+      default = "";
+      description = "exclusive module style";
+    };
   };
   
-  config = mkIf (cfg.enable && config.gui.enable) {
+  config = mkIf (cfg.enable && config.graphical.enable) {
     environment.systemPackages = with pkgs; [
       fzf
       xdg-desktop-portal-hyprland
-      xdg-desktop-portal-gtk
-      xdg-desktop-portal
     ];
     hardware.graphics.enable = mkDefault true;
     security.polkit.enable = mkDefault true;
@@ -39,11 +40,33 @@ in {
     xdg.portal = {
       enable = true;
       extraPortals = with pkgs; [ 
+        xdg-desktop-portal-termfilechooser
         xdg-desktop-portal-hyprland
         xdg-desktop-portal-gtk
         xdg-desktop-portal
       ];
-      config.common.default = "*";
+      config = { 
+        common.default = "*";
+        hyprland = {
+          default = [
+            "hyprland"
+            "termfilechooser"
+            "gtk"
+          ];
+          "org.freedesktop.portal.FileManager" = [
+            "termfilechooser"
+          ];
+          "org.freedesktop.portal.FileManager1" = [
+            "termfilechooser"
+          ];
+          "org.freedesktop.impl.portal.FileChooser" = [
+            "termfilechooser"
+          ];
+          "org.freedesktop.portal.Settings" = [
+            "gtk"
+          ];
+        };
+      };
     };
     home-manager.users.${config.user} = {
       home.packages = with pkgs; [
@@ -52,7 +75,7 @@ in {
       xdg.configFile = {
         "hypr/conf/startup.conf" = {
           text = /*hyprlang*/ ''
-          exec-once = ${config.graphical.hyprland.scripts.xdgNuke}
+          # exec-once = ${config.graphical.hyprland.scripts.xdgNuke}
           exec-once = dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
           exec-once = systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
 
@@ -73,7 +96,11 @@ in {
         systemd = {
           enable = true;
         };
-        extraConfig = /*hyprlang*/ ''
+        extraConfig = let
+          volScript = "${inputs.sqripts.packages."${config.nixpkgs.hostPlatform.system}".volume}/bin/volume";
+          briScript = "${inputs.sqripts.packages."${config.nixpkgs.hostPlatform.system}".brightness}/bin/brightness";
+          recScript = "${inputs.sqripts.packages."${config.nixpkgs.hostPlatform.system}".screenshot}/bin/screenshot";
+        in /*hyprlang*/ ''
           $terminal = kitty
           $configs = $HOME/.config/hypr/conf
 
@@ -112,7 +139,11 @@ in {
 
             sensitivity = 0 # -1.0 to 1.0, 0 means no modification.
           }
-
+          
+          ecosystem {
+            no_update_news = true
+            no_donation_nag = true
+          }
           general {
             gaps_in = 8
             gaps_out = 15
@@ -131,6 +162,9 @@ in {
               color_inactive = 0x22000000
             }
             rounding = 15
+            active_opacity = 0.9
+            inactive_opacity = 0.9
+            fullscreen_opacity = 0.9
           }
 
           animations {
@@ -215,24 +249,22 @@ in {
           bindm = $mainMod, mouse:272, movewindow
           bindm = $mainMod, mouse:273, resizewindow
 
-          bind = $mainMod, space, exec, tofi-drun
-
           layerrule = blur, logout_dialog
           bind = CTRL_ALT, Delete, exec, ~/${config.graphical.wlogout.homePath}
           bind = $mainMod, l, exec, hyprlock
 
-          windowrule = float, initialTitle:projdrop-launcher
-          windowrule = maximize, title:^(projdrop-launcher)$
-          windowrule = move center, title:^(projdrop-launcher)$
-          bind = $mainMod, D, exec, ${config.graphical.runbars.projDropScript} TERMINAL
+          bind = $mainMod SHIFT, S, exec, ${recScript} ROFI 
+          bind = ,Print, exec, ${recScript} PRINTSCREEN
 
-          windowrulev2 = float, initialTitle:Picture-in-Picture
-          windowrulev2 = move center, initialTitle:Picture-in-Picture
-          windowrulev2 = size 800 450, initialTitle:Picture-in-Picture
+          binde = ,XF86MonBrightnessDown, exec, ${briScript} DEC 
+          binde = ,XF86MonBrightnessUp, exec, ${briScript} INC
+          binde = ,XF86AudioRaiseVolume, exec, ${volScript} INC
+          binde = ,XF86AudioLowerVolume, exec, ${volScript} DEC
+          bind = ,XF86AudioMute, exec, ${volScript} TOGGLE
+          bind = ,XF86AudioMicMute, exec, ${volScript} TOGGLE-MIC
 
-          windowrulev2 = float, initialTitle:bluetui-window
-          windowrulev2 = move center, initialTitle:bluetui-window
-          windowrulev2 = size 800 600, initialTitle:bluetui-window
+          # defined in config.graphical.hyprland.exclusiveHyprConfig
+          ${cfg.exclusiveHyprConfig}
         '';
       };
     };

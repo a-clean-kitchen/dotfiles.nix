@@ -1,16 +1,16 @@
 { config, lib, pkgs, ... }:
 
 let
-  cfg = config.graphical.youtube-tui;
+  cfg = config.graphical.pulsemixer;
 
   inherit (lib) mkIf mkOption types;
 in
 {
-  options.graphical.youtube-tui = {
+  options.graphical.pulsemixer = {
     enable = mkOption {
       type = types.bool;
-      default = true;
-      description = "enable youtube-tui";
+      default = config.graphical.enable;
+      description = "enable pulsemixer";
     };
   };
 
@@ -18,13 +18,12 @@ in
   config = mkIf cfg.enable {
     home-manager.users.${config.user} = {
       home.packages = with pkgs; [
-        youtube-tui
-        catt
-        mpv
+        highlight
+        pulsemixer
       ];
-      xdg.desktopEntries."youtube-tui" = {
-        exec = "kitty youtube-tui";
-        name = "youtube-tui";
+      xdg.desktopEntries."pulsemixer" = {
+        exec = "kitty -T pulsemixer pulsemixer";
+        name = "pulsemixer";
         genericName = "Terminal";
         terminal = false;
       };

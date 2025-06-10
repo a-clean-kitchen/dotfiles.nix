@@ -16,7 +16,7 @@ in
 
           git -C $DOTFILESPATH add --intent-to-add --all
 
-          if ! nixos-rebuild build --flake $DOTFILESPATH#junkr; then
+          if ! nixos-rebuild build --show-trace --flake $DOTFILESPATH#${config.networking.hostName}; then
               echo "Error: NixOS rebuild failed" >&2
               exit 1
           fi
@@ -42,9 +42,11 @@ in
               "--service-type=exec"
               "--unit=nixos-rebuild-switch-to-configuration"
               "--wait"
+              "sudo"
               "$pathToConfig/bin/switch-to-configuration"
               "switch"
           )
+
 
           if ! sudo "''${cmd[@]}"; then
               # Switch failed
@@ -53,6 +55,11 @@ in
               # Switch succeeded
               echo "$pathToConfig"
           fi 
+
+          # if PWD is not $DOTFILESPATH, delete the ./result directory that gets built
+          if [ "$(pwd)" != "$DOTFILESPATH" ]; then
+              rm -rf ./result
+          fi
         ''; 
       in writeShellScript "rebuildNixos" script; 
     };
@@ -73,7 +80,7 @@ in
           nr = "rebuild-nixos";
           nro = "rebuild-nixos offline";
           hm = "rebuild-home";
-          cdf = "cd $(${config.graphical.runbars.projDropScript}) && clear";
+          cdf = "cd $(${config.graphical.misc.projDropScript}) && clear";
         };
         functions = {
           nix-shell-run = {
@@ -103,8 +110,7 @@ in
           rebuild-home = {
             body = ''
               git -C ${config.dotfilesPath} add --intent-to-add --all
-              commandline -r "${pkgs.home-manager}/bin/home-manager switch --flake ${config.dotfilesPath}";
-              commandline --function execute
+              "${pkgs.home-manager}/bin/home-manager switch --flake ${config.dotfilesPath}";
             '';
           };
         };

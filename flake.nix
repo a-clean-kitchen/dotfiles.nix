@@ -22,6 +22,7 @@
       overlays = [
         (import ./overlays/nvim4.nix inputs)
         (import ./overlays/zen-browser.nix inputs)
+        (import ./overlays/network-manager.nix inputs)
         # (import ./overlays/ghostty.nix inputs) # will re-visit eventually
       ];
 
@@ -47,7 +48,6 @@
       
       homeConfigurations = {
         "${globals.user}@deskBocks" = nixosConfigurations.deskBocks.config.home-manager.users.${globals.user};
-        # "${globals.user}@junker" = nixosConfigurations.junker.config.home-manager.users.${globals.user};
         "${globals.user}@junkr" = nixosConfigurations.junkr.config.home-manager.users.${globals.user};
       };
 
@@ -55,12 +55,6 @@
         "${system}" = {
           # genuinely, this is not ok
           homeConfigurations = {
-            # "${globals.user}@junker" = let
-            #   cfg = nixosConfigurations.junker.config.home-manager.users.${globals.user};
-            # in  {
-            #   activationPackage = cfg.home.activationPackage;  
-            #   config.news.json.output = cfg.news.json.output; 
-            # };
             "${globals.user}@junkr" = let
               cfg = nixosConfigurations.junkr.config.home-manager.users.${globals.user};
             in  {
@@ -92,6 +86,7 @@
 
     nvim4 = {
       url = "github:a-clean-kitchen/nvim4";
+      # url = "git+file:///home/qm/wksp/repos/nvim4";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -100,6 +95,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     
+    network-manager = {
+      url = "git+https://github.com/Blazzzeee/network_manager_ui?dir=nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     # Not in nixpkgs yet
     zen-browser = {
       url = "github:youwen5/zen-browser-flake";
@@ -110,6 +110,12 @@
     my-secrets = {
       url = "git+ssh://git@github.com/a-clean-kitchen/seqrets.git?shallow=1";
       flake = false;
+    };
+
+    sqripts = {
+      url = "git+file:///home/qm/wksp/repos/sqripts";
+      # url = "github:a-clean-kitchen/sqripts";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 }

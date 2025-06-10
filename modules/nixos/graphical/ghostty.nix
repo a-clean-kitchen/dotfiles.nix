@@ -11,7 +11,7 @@ in
   options.graphical.ghostty = {
     enable = mkOption {
       type = types.bool;
-      default = false;
+      default = config.graphical.enable;
       description = "enable ghostty";
     };
   };

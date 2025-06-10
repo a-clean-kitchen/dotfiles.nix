@@ -15,6 +15,6 @@ in
 
   config = mkIf cfg {
     physical = mkDefault true; 
-    gui.enable = mkDefault true;
+    graphical.enable = mkDefault true;
   };
 }

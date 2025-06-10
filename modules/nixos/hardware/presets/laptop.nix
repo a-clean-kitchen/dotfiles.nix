@@ -20,7 +20,7 @@ in
       bluetooth.enable = mkDefault true;
     };
     wifi.enable = mkDefault true;
-    gui.enable = mkDefault true;
+    graphical.enable = mkDefault true;
     isNixos = mkDefault true;
   };
 }

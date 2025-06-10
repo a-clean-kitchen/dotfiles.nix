@@ -10,7 +10,7 @@ in
   options.graphical.wallpapers = {
       enable = mkOption {
         type = types.bool;
-        default = true;
+        default = config.graphical.enable;
         description = "enable wallpapers";
       };
       

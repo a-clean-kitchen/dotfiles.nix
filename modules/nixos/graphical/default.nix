@@ -1,23 +1,35 @@
-{ ... }:
+{ lib, ... }:
 
-{
+let
+  inherit (lib) mkEnableOption;
+in {
   imports = [
+    ./hypr
+    ./video
+    ./waybar
+    ./runners
+    
+    ./obsidian
+
     ./misc.nix
-    # ./zoom.nix
+    ./yazi.nix
     ./dunst.nix
     ./fonts.nix
     ./greetd.nix
-    ./ranger.nix
-    ./waybar.nix
     ./baseCSS.nix
+    ./blender.nix
     ./browser.nix
     ./discord.nix
-    ./runbars.nix
-    ./spotify.nix
     ./wlogout.nix
-    ./hyprland.nix
-    ./obsidian.nix
     ./windsurf.nix
     ./wallpaper.nix
+    ./pulsemixer.nix
   ];
+
+  options.graphical = {
+    enable = mkEnableOption {
+      description = "Enable graphics.";
+      default = false;
+    }; 
+  };
 }

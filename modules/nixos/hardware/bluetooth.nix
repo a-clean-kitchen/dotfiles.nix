@@ -2,7 +2,6 @@
 
 let
   cfg = config.harderware.bluetooth;
-  gcfg = config.graphical;
   inherit (lib) mkIf mkOption types;
 in
 {

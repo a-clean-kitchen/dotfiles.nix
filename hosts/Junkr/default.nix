@@ -24,6 +24,10 @@ inputs.nixpkgs.lib.nixosSystem {
         hyprland.sixteenbynine = true;
       };
 
+      harderware = {
+        audio.ledMutePatch = true;
+      };
+
       # Boot from a usb
       # Set password for "nixos" user: passwd
       # # Look in Makefile for an example init command once you have a root password and ip/hostname

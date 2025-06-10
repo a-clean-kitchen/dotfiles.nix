@@ -9,7 +9,7 @@ in
   options.graphical.dunst = {
     enable = mkOption {
       type = types.bool;
-      default = true;
+      default = config.graphical.enable;
       description = "enable dunst notifications";
     };
     maxWidth = mkOption {
@@ -25,6 +25,7 @@ in
       home.packages = with pkgs; [
         papirus-icon-theme        # fix "no icon theme found" issue when started manually
         notify-desktop            # neat tool for sending notifications to desktop
+        libnotify
       ];
       services.dunst = {
         enable = true;
@@ -34,10 +35,10 @@ in
         };
         settings = {
           global = {
-            width = cfg.maxWidth;
-            height = 200;
+            width = "(0, ${toString cfg.maxWidth}";
+            height = "(0, 200)";
             origin = "top-left";
-            offset = "20x20";
+            offset = "(15, 15)";
             notification_limit = 0;
             font = config.bestFont;
             markup = "full";

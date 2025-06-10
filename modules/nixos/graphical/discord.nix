@@ -1,28 +1,24 @@
 { config, lib, pkgs, ... }:
 
 let
-  cfg = config.graphical.apps.discord;
+  cfg = config.graphical.discord;
 
   inherit (lib) mkIf mkOption types;
 in
 {
-  options.graphical.apps.discord = {
+  options.graphical.discord = {
     enable = mkOption {
       type = types.bool;
-      default = true;
+      default = config.graphical.enable;
       description = "enable discord";
     };
   };
 
 
   config = mkIf cfg.enable {
-    unfreePackages = [
-      "discord"
-    ];
-
     home-manager.users.${config.user} = {
       home.packages = with pkgs; [
-        discord
+        webcord
       ];
     };
   };

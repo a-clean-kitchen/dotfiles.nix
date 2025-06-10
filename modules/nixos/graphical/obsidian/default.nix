@@ -7,12 +7,13 @@ let
 in
 {
   # imports = [
-  #   ../../prerolls/obsidian.preroll.nix
+  #   ./options.nix
   # ];
+
   options.graphical.obsidian = {
     enable = mkOption {
       type = types.bool;
-      default = true;
+      default = config.graphical.enable;
       description = "enable obsidian";
     };
   };

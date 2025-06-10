@@ -1,34 +1,31 @@
 { config, lib, pkgs, ... }:
 
 let
-  cfg = config.graphical.ranger;
+  cfg = config.graphical.yazi;
 
   inherit (lib) mkIf mkOption types;
 in
 {
-  options.graphical.ranger = {
+  options.graphical.yazi = {
     enable = mkOption {
       type = types.bool;
-      default = true;
-      description = "enable ranger";
+      default = config.graphical.enable;
+      description = "enable yazi";
     };
   };
-
 
   config = mkIf cfg.enable {
     home-manager.users.${config.user} = {
       home.packages = with pkgs; [
         highlight
       ];
-      programs.ranger = {
+      programs.yazi = {
         enable = true;
-        extraConfig = ''
-          set preview_images_method kitty
-        '';
+        enableFishIntegration = true;
       };
-      xdg.desktopEntries."ranger" = {
-        exec = "kitty -T ranger ranger";
-        name = "ranger";
+      xdg.desktopEntries."yazi" = {
+        exec = "kitty -T yazi yazi";
+        name = "yazi";
         genericName = "Terminal";
         terminal = false;
       };
