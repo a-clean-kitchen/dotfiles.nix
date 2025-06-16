@@ -24,7 +24,7 @@ in {
   options.graphical.waybar = {
     enable = mkOption {
       type = types.bool;
-      default = config.graphical.enable;
+      default = false; # config.graphical.enable;
       description = "enable waybar";
     };
 

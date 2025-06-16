@@ -4,6 +4,7 @@ let
   inherit (lib) mkEnableOption;
 in {
   imports = [
+    ./eww
     ./hypr
     ./video
     ./waybar
