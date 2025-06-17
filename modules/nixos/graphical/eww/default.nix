@@ -12,7 +12,7 @@ in {
   options.graphical.eww = {
     enable = mkOption {
       type = types.bool;
-      default = false; # config.graphical.enable;
+      default = config.graphical.enable;
       description = "enable eww";
     };
 
