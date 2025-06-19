@@ -1,1 +1,10 @@
+* {
+    all: unset;
+    font-family: "CascadiaCode";
+    box-shadow: 0 0 0 0rem;
+    font-weight: bold;
+}
+@import "colors.scss"
+@import "scss/bar.scss";
+
 @import "scss/activateLinux.scss";

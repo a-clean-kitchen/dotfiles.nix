@@ -1,20 +1,16 @@
-{ inputs, config, lib, pkgs, ... }:
+{ inputs, config, lib, ... }:
 
 let
   cfg = config.graphical.runbars;
 
-  inherit (lib) mkIf mkOption types;
-  inherit (pkgs) writeShellScript;
+  inherit (lib) mkIf;
 in
 {
   config = mkIf (cfg.enable) {
     graphical.hyprland.exclusiveHyprConfig = let 
-      projDropScript = "${inputs.sqripts.packages."${config.nixpkgs.hostPlatform.system}".projdrop}/bin/projdrop";
+      quickObsiScript = "${inputs.sqripts.packages."${config.nixpkgs.hostPlatform.system}".quick-obsidian}/bin/quick-obsidian";
     in ''
-      windowrule = float, initialTitle:projdrop-launcher
-      windowrule = maximize, title:^(projdrop-launcher)$
-      windowrule = move center, title:^(projdrop-launcher)$
-      bind = $mainMod, D, exec, ${projDropScript}
+      bind = $mainMod, O, exec, ${quickObsiScript} ${inputs.my-secrets.obsidian.vault}
     '';
   };
 }

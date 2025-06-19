@@ -12,6 +12,7 @@ in {
     
     ./obsidian
 
+    ./gtk.nix
     ./misc.nix
     ./yazi.nix
     ./dunst.nix
@@ -21,9 +22,12 @@ in {
     ./blender.nix
     ./browser.nix
     ./discord.nix
+    ./spotify.nix
     ./wlogout.nix
+    ./zathura.nix
     ./windsurf.nix
     ./wallpaper.nix
+    ./videoEditor.nix
     ./pulsemixer.nix
   ];
 

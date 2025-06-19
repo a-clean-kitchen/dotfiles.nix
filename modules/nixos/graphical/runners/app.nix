@@ -40,6 +40,10 @@ in
             name = "nixos-manual";
             noDisplay = true;
           };
+          "Zathura" = {
+            name = "Zathura";
+            noDisplay = true;
+          };
           "Windsurf" = {
             name = "Windsurf";
             noDisplay = true;

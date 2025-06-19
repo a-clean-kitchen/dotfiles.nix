@@ -109,7 +109,7 @@
     # kept safe and away!
     my-secrets = {
       url = "git+ssh://git@github.com/a-clean-kitchen/seqrets.git?shallow=1";
-      flake = false;
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     sqripts = {

@@ -1,2 +1,6 @@
+(include "variables.yuck")
+(include "windows.yuck")
+
+(include "yuckys/bar.yuck")
+
 (include "yuckys/activateLinux.yuck")
-(defwidget bar [])

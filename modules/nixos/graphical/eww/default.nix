@@ -12,7 +12,7 @@ in {
   options.graphical.eww = {
     enable = mkOption {
       type = types.bool;
-      default = config.graphical.enable;
+      default = false; # config.graphical.enable;
       description = "enable eww";
     };
 
@@ -29,10 +29,36 @@ in {
       description = "exclusive module style";
     };
 
-    scripts = {};
+    ewwStartWindows = mkOption {
+      type = types.listOf (types.str);  
+      default = [];
+      description = "startup eww windows";
+    };
+    
+    scripts = {
+      starter = mkOption {
+        type = types.path;
+        description = "";
+        default = let
+        script = /*bash*/ ''
+          pkill eww
+          eww daemon --restart
+          eww open-many ${builtins.concatStringsSep " " cfg.ewwStartWindows}
+          '';
+        in  writeShellScript "ewwStarter" script;
+      };
+    };
   };
-
   config = mkIf (cfg.enable && config.graphical.hyprland.enable) {
+    graphical.eww.ewwStartWindows = [
+      "topbgcorner-left" "topside-edge" "topbgcorner-right"
+      "leftside-edge"                   "rightside-edge"
+      "bgcorner-left"    "bar"          "bgcorner-right"
+    ];
+
+    # xdg.configFile."eww" = let
+    #
+    # in true;    
     home-manager.users.${config.user} = {
       programs.eww = {
         enable = true;

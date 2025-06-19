@@ -10,6 +10,8 @@ in
   imports = [
     ./app.nix
     ./projdrop.nix
+    ./minidmenus.nix
+    ./quickObsidian.nix
   ];
 
   options.graphical.runbars = {

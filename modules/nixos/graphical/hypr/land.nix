@@ -83,6 +83,7 @@ in {
           exec-once = ${config.graphical.wallpapers.script} init $wallDIR/wanderer.jpg
 
           ${if config.graphical.waybar.enable then "exec-once = waybar &" else ""}
+          ${if config.graphical.eww.enable then "exec-once = ${config.graphical.eww.scripts.starter}" else ""}
           ${if config.graphical.hypridle.enable then "exec-once = hypridle &" else ""}
           ${if config.graphical.dunst.enable then "exec-once = dunst &" else ""}
 
@@ -253,7 +254,7 @@ in {
           bind = CTRL_ALT, Delete, exec, ~/${config.graphical.wlogout.homePath}
           bind = $mainMod, l, exec, hyprlock
 
-          bind = $mainMod SHIFT, S, exec, ${recScript} ROFI 
+          bind = ALT SHIFT, S, exec, ${recScript} ROFI 
           bind = ,Print, exec, ${recScript} PRINTSCREEN
 
           binde = ,XF86MonBrightnessDown, exec, ${briScript} DEC 

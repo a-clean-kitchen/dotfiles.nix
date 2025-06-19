@@ -1,25 +1,25 @@
 { config, lib, pkgs, ... }:
 
 let
-  cfg = config.graphical.spotify;
+  cfg = config.graphical.videoEditor;
 
   inherit (lib) mkIf mkOption types;
 in
 {
-  options.graphical.spotify = {
+  options.graphical.videoEditor = {
     enable = mkOption {
       type = types.bool;
-      default = config.graphical.enable;
-      description = "enable spotify";
+      default = true;
+      description = "enable video editor";
     };
   };
 
 
   config = mkIf cfg.enable {
     home-manager.users.${config.user} = {
-      programs.ncspot = {
-        enable = true;
-      };
+      home.packages = with pkgs; [
+        kdePackages.kdenlive
+      ];
     };
   };
 }

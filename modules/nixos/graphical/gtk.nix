@@ -1,23 +1,23 @@
 { config, lib, pkgs, ... }:
 
 let
-  cfg = config.graphical.spotify;
+  cfg = config.graphical.gtk;
 
   inherit (lib) mkIf mkOption types;
 in
 {
-  options.graphical.spotify = {
+  options.graphical.gtk = {
     enable = mkOption {
       type = types.bool;
-      default = config.graphical.enable;
-      description = "enable spotify";
+      default = true;
+      description = "enable gtk";
     };
   };
 
 
   config = mkIf cfg.enable {
     home-manager.users.${config.user} = {
-      programs.ncspot = {
+      gtk = {
         enable = true;
       };
     };
