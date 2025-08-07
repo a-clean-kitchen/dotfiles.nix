@@ -16,9 +16,17 @@ in
 
 
   config = mkIf cfg.enable {
+    unfreePackages = [
+      "discord"
+    ];
     home-manager.users.${config.user} = {
       home.packages = with pkgs; [
-        webcord
+        vesktop
+        # webcord
+        # (discord.override {
+        #   # withOpenASAR = true; # can do this here too
+        #   withVencord = true;
+        # })
       ];
     };
   };

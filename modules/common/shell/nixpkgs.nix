@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, inputs, ... }:
 let
   inherit (lib) mkOption types;
   inherit (pkgs) writeShellScript;
@@ -81,6 +81,7 @@ in
           nro = "rebuild-nixos offline";
           hm = "rebuild-home";
           cdf = "cd $(${config.graphical.misc.projDropScript}) && clear";
+          wh = "wipe-history";
         };
         functions = {
           nix-shell-run = {
@@ -103,14 +104,21 @@ in
             '';
           };
           rebuild-nixos = {
-            body = ''
-              ${config.scripts.rebuildNixos}
+            body = let
+              rebuilScript = "${inputs.sqripts.packages."${config.nixpkgs.hostPlatform.system}".rebuild-nixos}/bin/rebuild-nixos";
+            in  ''
+              ${rebuilScript} ${config.networking.hostName} ${config.dotfilesPath}
             '';
           };
           rebuild-home = {
             body = ''
               git -C ${config.dotfilesPath} add --intent-to-add --all
               "${pkgs.home-manager}/bin/home-manager switch --flake ${config.dotfilesPath}";
+            '';
+          };
+          wipe-history = {
+            body = ''
+             sudo nix profile wipe-history --older-than $argv[1]d --profile /nix/var/nix/profiles/system
             '';
           };
         };

@@ -35,6 +35,34 @@ in
           };
           fish = {
             functions = {
+              prune-branches = let
+                pruneScript = writeShellScript "gitPruneLocalExclusives.sh" ''
+                  git fetch -p
+                  toBeDeleted=$(git branch -r | \
+                    awk '{print $1}' | \
+                    egrep -v -f /dev/fd/0 <(git branch -vv | grep origin) | \
+                    awk '{print $1}')
+                  oldAllBranch=$(git branch -a)
+                  echo "The following branches will be deleted:"
+                  echo ""
+                  echo "$toBeDeleted"
+                  echo ""
+                  while true; do
+                      read -p "Is that okay? " yn
+                      case $yn in
+                          [Yy]* ) 
+                            echo "$toBeDeleted" | xargs git branch -D;
+                            diff <(echo "$oldAllBranch") <(git branch -a)
+                            exit;;
+                          [Nn]* ) exit;;
+                          * ) echo "Okay then"; exit;;
+                      esac
+                  done
+
+                '';
+              in{
+                body = ''${pruneScript}'';
+              };
               gcl = {
                 body = let
                   gitScript = writeShellScript "gitClone.sh" /*bash*/ ''

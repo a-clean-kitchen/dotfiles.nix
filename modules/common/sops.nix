@@ -43,7 +43,7 @@ in
         "keys/age/txt" = {
           sopsFile = "${cfg.sopsFolder}/${config.user}.user.yaml";
           owner = config.users.users.${config.user}.name;
-          inherit (config.users.users.${config.user}) group;
+          group = config.users.users.${config.user}.group;
           # We need to ensure the entire directory structure is that of the user...
           path = "${config.homePath}/.config/sops/age/keys.txt";
         };
@@ -69,5 +69,15 @@ in
         chown -R ${user}:${group} ${config.homePath}/.config
       '';
     passwordHash = config.sops.secrets."passwords/${config.user}".path;
+
+    home-manager.users.${config.user} = {
+      imports = [ inputs.sops-nix.homeManagerModules.sops ];
+      sops = {
+        age.keyFile = "${config.homePath}/.config/sops/age/keys.txt";
+        defaultSopsFile = "${cfg.sopsFolder}/${config.user}.user.yaml";
+        # validateSops
+        secrets = {};
+      };
+    };
   };
 }

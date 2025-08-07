@@ -85,8 +85,8 @@
     };
 
     nvim4 = {
-      # url = "github:a-clean-kitchen/nvim4";
-      url = "git+file:///home/qm/wksp/repos/nvim4";
+      url = "github:a-clean-kitchen/nvim4";
+      # url = "git+file:///home/qm/wksp/repos/nvim4";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -113,8 +113,8 @@
     };
 
     sqripts = {
-      url = "git+file:///home/qm/wksp/repos/sqripts";
-      # url = "github:a-clean-kitchen/sqripts";
+      # url = "git+file:///home/qm/wksp/repos/sqripts";
+      url = "github:a-clean-kitchen/sqripts";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
