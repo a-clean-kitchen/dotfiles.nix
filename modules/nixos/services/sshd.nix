@@ -24,6 +24,14 @@
         X11Forwarding = false;
         PermitRootLogin = config.permitRootLogin;
       };
+      # stripped ed25519 host key keygen so I can handle it using sops
+      hostKeys = [
+        {
+          type = "rsa";
+          bits = 4096;
+          path = "/etc/ssh/ssh_host_rsa_key";
+        }
+      ];
     };
 
     users.users.${config.user}.openssh.authorizedKeys.keys =

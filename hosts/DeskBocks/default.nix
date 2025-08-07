@@ -13,11 +13,9 @@ inputs.nixpkgs.lib.nixosSystem {
       
       server = true;
       nixpkgs.overlays = overlays;      
-      publicKeys = [
-        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMQcdy3fe9wP0zmx/TMPcZ3r4b38sitxg3ieTSkPbvju"
-      ];
       services.openssh.enable = true;
       networking.hostName = "deskbocks";
+      time.timeZone = "America/New_York";
      
       # Boot from a usb
       # Set password for root: sudo -s; passwd
@@ -26,12 +24,6 @@ inputs.nixpkgs.lib.nixosSystem {
         enableConfig = true;
         devices = (import ../../disks/root.nix { disk = "/dev/sda"; });
       };
-
-      # I will never touch these
-      boot.initrd.availableKernelModules = 
-        [ "ahci" "xhci_pci" "usbhid" "usb_storage" "sd_mod" "sdhci_pci" ];
-
-      boot.kernelModules = [ "kvm-intel" ];
 
       # A key of sorts
       passwordHash = inputs.nixpkgs.lib.fileContents ../../misc/password.sha512;

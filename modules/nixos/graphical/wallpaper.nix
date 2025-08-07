@@ -10,7 +10,7 @@ in
   options.graphical.wallpapers = {
       enable = mkOption {
         type = types.bool;
-        default = true;
+        default = config.graphical.enable;
         description = "enable wallpapers";
       };
       
@@ -23,11 +23,11 @@ in
           case "$1" in
             "init")
               $swww-daemon &
-              $swww img $2 --transition-type grow --transition-duration 3 --transition-pos "$(hyprctl cursorpos)" --invert-y
+              $swww img $2 --transition-type grow --transition-duration 3 --transition-pos "$(hyprctl cursorpos)" --invert-y &
               ;;
             *)
               sleep 1
-              $swww img $1 --transition-type grow --transition-duration 3 --transition-pos "$(hyprctl cursorpos)" --invert-y
+              $swww img $1 --transition-type grow --transition-duration 3 --transition-pos "$(hyprctl cursorpos)" --invert-y &
               ;;
           esac
           '';
@@ -36,7 +36,7 @@ in
 
       images = mkOption {
         type = types.path;
-        default = ./wallpapers;
+        default = ../../../assets/wallpapers;
         description = "directory with all the actual wallpaper images";
       };
     };

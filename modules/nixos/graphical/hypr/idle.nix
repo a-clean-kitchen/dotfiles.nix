@@ -9,7 +9,7 @@ in
   options.graphical.hypridle = {
       enable = mkOption {
         type = types.bool;
-        default = true;
+        default = config.graphical.enable;
         description = "enable hypridle";
       };
     };

@@ -23,7 +23,10 @@ in
         themeFile = "Catppuccin-Mocha";
         settings = {
           window_padding_width = 15;
-          font_size = 11;
+        };
+        font = {
+          size = 11;
+          name = "Monocraft Nerd Font";
         };
       };
     };

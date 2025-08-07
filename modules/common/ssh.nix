@@ -24,7 +24,7 @@ in
         enable = true;
         extraConfig = if (config.tools.onepassword.enable) then
         "IdentityAgent ${onePassPath}"
-        else ""; 
+        else "";
       };
     };
   };

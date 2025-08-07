@@ -5,6 +5,7 @@
     ./wifi.nix
     ./audio.nix
     ./server.nix
+    ./bluetooth.nix
     ./networking.nix
     ./presets
   ];

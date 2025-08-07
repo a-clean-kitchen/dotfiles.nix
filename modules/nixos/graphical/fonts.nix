@@ -12,18 +12,19 @@ in
   };
   
 
-  config = mkIf (config.gui.enable && pkgs.stdenv.isLinux) {
-    fonts.packages = with pkgs.nerd-fonts; [
+  config = mkIf (config.graphical.enable && pkgs.stdenv.isLinux) {
+    fonts.packages = with pkgs; [
+      monocraft
+    ] ++ (with pkgs.nerd-fonts; [
       caskaydia-cove
       caskaydia-mono
-    ];
+    ]);
 
     home-manager.users.${config.user} = {
       home.packages = with pkgs.nerd-fonts; [
         caskaydia-cove
         caskaydia-mono
       ];
-      programs.kitty.font.name = bestFont;
     };
   };
 }

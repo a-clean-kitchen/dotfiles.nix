@@ -10,7 +10,7 @@ in
   options.graphical.wlogout = {
     enable = mkOption {
       type = types.bool;
-      default = true;
+      default = config.graphical.enable;
       description = "enable wlogout";
     };
     
@@ -59,7 +59,7 @@ in
           source = config.graphical.wlogout.script;
         };
         "${path}/icons" = {
-          source = ./lockIcons;
+          source = ../../../assets/lockIcons;
           recursive = true;
         };
         "${path}/style.css" = {
@@ -148,7 +148,7 @@ in
               "label" : "shutdown",
               "action" : "systemctl poweroff",
               "text" : "Shutdown",
-              "keybind" : "s"
+              "keybind" : "u"
           }
           {
               "label" : "reboot",
@@ -164,9 +164,9 @@ in
           }
           {
               "label" : "sleep",
-              "action" : "hyprlock && loginctl lock-session && systemctl sleep && hyprctl dispatch dpms on",
+              "action" : "loginctl lock-session && systemctl sleep # && hyprctl dispatch dpms on",
               "text" : "Sleep",
-              "keybind" : "h"
+              "keybind" : "s"
           }
           {
               "label" : "lock",

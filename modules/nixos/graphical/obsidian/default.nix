@@ -6,10 +6,14 @@ let
   inherit (lib) mkIf mkOption types;
 in
 {
+  # imports = [
+  #   ./options.nix
+  # ];
+
   options.graphical.obsidian = {
     enable = mkOption {
       type = types.bool;
-      default = true;
+      default = config.graphical.enable;
       description = "enable obsidian";
     };
   };
@@ -25,9 +29,8 @@ in
         obsidian
       ];
       xdg.desktopEntries."obsidian" = {
-        exec = "obsidian";
+        exec = "obsidian %u";
         name = "obsidian";
-        genericName = "Terminal";
         terminal = false;
       };
     };

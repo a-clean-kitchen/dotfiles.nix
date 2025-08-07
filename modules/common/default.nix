@@ -6,6 +6,7 @@ in {
   imports = [
     ./git.nix
     ./ssh.nix
+    ./sops.nix
     ./repos
     ./shell
     ./applications
@@ -47,12 +48,7 @@ in {
       description = "List of unfree packages to allow.";
       default = [ ];
     };
-    gui = {
-      enable = mkEnableOption {
-        description = "Enable graphics.";
-        default = false;
-      };
-    };
+
     hostnames = {
       main = mkOption {
         type = types.str;

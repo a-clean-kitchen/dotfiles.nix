@@ -9,7 +9,7 @@ in
   options.graphical.base.css = {
     enable = mkOption {
       type = types.bool;
-      default = true;
+      default = config.graphical.enable;
       description = "base css file";
     };
     text = mkOption {
@@ -47,7 +47,7 @@ in
   };
   
 
-  config = mkIf config.gui.enable {
+  config = mkIf config.graphical.enable {
     home-manager.users.${config.user} = {
       xdg.configFile = {
         "css/base.css" = {

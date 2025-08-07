@@ -5,22 +5,32 @@ let
 
   inherit (lib) mkIf mkDefault mkOption types;
 in {
+  imports = [
+    ./scripts/startup.nix
+  ];
+
   options.graphical.hyprland = {
-      enable = mkOption {
-        type = types.bool;
-        default = true;
-        description = "enable hyprland";
-      };
-      
-      scriptsDir = mkOption {
-        type = types.path;
-        default = "/home/${config.user}/.config/hypr/scripts";
-      };
+    enable = mkOption {
+      type = types.bool;
+      default = config.graphical.enable;
+      description = "enable hyprland";
     };
+    
+    sixteenbynine = mkOption {
+      type = types.bool;
+      default = false;
+    };
+    exclusiveHyprConfig = mkOption {
+      type = types.lines;
+      default = "";
+      description = "exclusive module style";
+    };
+  };
   
-  config = mkIf (cfg.enable && config.gui.enable) {
+  config = mkIf (cfg.enable && config.graphical.enable) {
     environment.systemPackages = with pkgs; [
       fzf
+      xdg-desktop-portal-hyprland
     ];
     hardware.graphics.enable = mkDefault true;
     security.polkit.enable = mkDefault true;
@@ -30,12 +40,33 @@ in {
     xdg.portal = {
       enable = true;
       extraPortals = with pkgs; [ 
+        xdg-desktop-portal-termfilechooser
         xdg-desktop-portal-hyprland
         xdg-desktop-portal-gtk
-        xdg-desktop-portal-wlr
         xdg-desktop-portal
       ];
-      config.common.default = "*";
+      config = { 
+        common.default = "*";
+        hyprland = {
+          default = [
+            "hyprland"
+            "termfilechooser"
+            "gtk"
+          ];
+          "org.freedesktop.portal.FileManager" = [
+            "termfilechooser"
+          ];
+          "org.freedesktop.portal.FileManager1" = [
+            "termfilechooser"
+          ];
+          "org.freedesktop.impl.portal.FileChooser" = [
+            "termfilechooser"
+          ];
+          "org.freedesktop.portal.Settings" = [
+            "gtk"
+          ];
+        };
+      };
     };
     home-manager.users.${config.user} = {
       home.packages = with pkgs; [
@@ -44,13 +75,15 @@ in {
       xdg.configFile = {
         "hypr/conf/startup.conf" = {
           text = /*hyprlang*/ ''
-          $wallDIR = $HOME/Pictures/wallpapers
-          exec-once = ${config.graphical.wallpapers.script} init $wallDIR/wanderer.jpg
-
+          # exec-once = ${config.graphical.hyprland.scripts.xdgNuke}
           exec-once = dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
           exec-once = systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
 
+          $wallDIR = $HOME/Pictures/wallpapers
+          exec-once = ${config.graphical.wallpapers.script} init $wallDIR/wanderer.jpg
+
           ${if config.graphical.waybar.enable then "exec-once = waybar &" else ""}
+          ${if config.graphical.eww.enable then "exec-once = ${config.graphical.eww.scripts.starter}" else ""}
           ${if config.graphical.hypridle.enable then "exec-once = hypridle &" else ""}
           ${if config.graphical.dunst.enable then "exec-once = dunst &" else ""}
 
@@ -64,18 +97,25 @@ in {
         systemd = {
           enable = true;
         };
-        extraConfig = /*hyprlang*/ ''
+        extraConfig = let
+          volScript = "${inputs.sqripts.packages."${config.nixpkgs.hostPlatform.system}".volume}/bin/volume";
+          briScript = "${inputs.sqripts.packages."${config.nixpkgs.hostPlatform.system}".brightness}/bin/brightness";
+          recScript = "${inputs.sqripts.packages."${config.nixpkgs.hostPlatform.system}".screenshot}/bin/screenshot";
+        in /*hyprlang*/ ''
           $terminal = kitty
           $configs = $HOME/.config/hypr/conf
 
           source = $configs/startup.conf
 
+          ${if cfg.sixteenbynine then "monitor = , 1920x1080@60, 0x0, 1" else ""}
+
           misc {
             # sowwy hypr
             disable_hyprland_logo = true
             disable_splash_rendering = true
-
             font_family = ${config.bestFont}
+            # Needed for obsidian, I guess https://help.obsidian.md/web-clipper/troubleshoot#Obsidian+opens+but+only+the+file+name+is+saved
+            focus_on_activate = true
           }
           
           # Some default env vars.
@@ -100,7 +140,11 @@ in {
 
             sensitivity = 0 # -1.0 to 1.0, 0 means no modification.
           }
-
+          
+          ecosystem {
+            no_update_news = true
+            no_donation_nag = true
+          }
           general {
             gaps_in = 8
             gaps_out = 15
@@ -119,6 +163,9 @@ in {
               color_inactive = 0x22000000
             }
             rounding = 15
+            active_opacity = 0.9
+            inactive_opacity = 0.9
+            fullscreen_opacity = 0.9
           }
 
           animations {
@@ -203,19 +250,22 @@ in {
           bindm = $mainMod, mouse:272, movewindow
           bindm = $mainMod, mouse:273, resizewindow
 
-          bind = $mainMod, space, exec, tofi-drun
-
           layerrule = blur, logout_dialog
           bind = CTRL_ALT, Delete, exec, ~/${config.graphical.wlogout.homePath}
           bind = $mainMod, l, exec, hyprlock
 
-          windowrule = float, title:^(projdrop-launcher)$
-          windowrule = maximize, title:^(projdrop-launcher)$
-          windowrule = move center, title:^(projdrop-launcher)$
-          bind = $mainMod, D, exec, ${config.graphical.runbars.projDropScript} TERMINAL
+          bind = ALT SHIFT, S, exec, ${recScript} ROFI 
+          bind = ,Print, exec, ${recScript} PRINTSCREEN
 
-          windowrule = float, title:^(Picture-in-Picture)$
-          windowrule = size 240 135, title:^(Picture-in-Picture)$
+          binde = ,XF86MonBrightnessDown, exec, ${briScript} DEC 
+          binde = ,XF86MonBrightnessUp, exec, ${briScript} INC
+          binde = ,XF86AudioRaiseVolume, exec, ${volScript} INC
+          binde = ,XF86AudioLowerVolume, exec, ${volScript} DEC
+          bind = ,XF86AudioMute, exec, ${volScript} TOGGLE
+          bind = ,XF86AudioMicMute, exec, ${volScript} TOGGLE-MIC
+
+          # defined in config.graphical.hyprland.exclusiveHyprConfig
+          ${cfg.exclusiveHyprConfig}
         '';
       };
     };
