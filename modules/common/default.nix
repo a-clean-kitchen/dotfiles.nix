@@ -7,6 +7,8 @@ in {
     ./git.nix
     ./ssh.nix
     ./sops.nix
+
+    ./disko
     ./repos
     ./shell
     ./applications
@@ -71,7 +73,7 @@ in {
         XDG_DATA_HOME   = "$HOME/.local/share";
         XDG_BIN_HOME    = "$HOME/.local/bin";
       };
-      systemPackages = with pkgs; [ git tldr wget curl gnumake tree ];
+      systemPackages = with pkgs; [ bash git tldr wget curl gnumake tree ];
     };
 
     home-manager = {

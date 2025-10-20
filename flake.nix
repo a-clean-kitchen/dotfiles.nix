@@ -42,13 +42,15 @@
 
       nixosConfigurations = {
         deskBocks = import ./hosts/DeskBocks { inherit inputs globals overlays; };  
-        junker = import ./hosts/Junker { inherit inputs globals overlays; };
+        # junker = import ./hosts/Junker { inherit inputs globals overlays; };
         junkr = import ./hosts/Junkr { inherit inputs globals overlays; };
+        kanna = import ./hosts/Kanna { inherit inputs globals overlays; };
       };
       
       homeConfigurations = {
         "${globals.user}@deskBocks" = nixosConfigurations.deskBocks.config.home-manager.users.${globals.user};
         "${globals.user}@junkr" = nixosConfigurations.junkr.config.home-manager.users.${globals.user};
+        "${globals.user}@kanna" = nixosConfigurations.kanna.config.home-manager.users.${globals.user};
       };
 
       packages = {
@@ -57,6 +59,12 @@
           homeConfigurations = {
             "${globals.user}@junkr" = let
               cfg = nixosConfigurations.junkr.config.home-manager.users.${globals.user};
+            in  {
+              activationPackage = cfg.home.activationPackage;  
+              config.news.json.output = cfg.news.json.output; 
+            };
+            "${globals.user}@kanna" = let
+              cfg = nixosConfigurations.kanna.config.home-manager.users.${globals.user};
             in  {
               activationPackage = cfg.home.activationPackage;  
               config.news.json.output = cfg.news.json.output; 

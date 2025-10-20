@@ -26,16 +26,17 @@ inputs.nixpkgs.lib.nixosSystem {
 
       harderware = {
         audio.ledMutePatch = true;
+        disko.devices.basic.enable = true;
       };
 
-      # Boot from a usb
-      # Set password for "nixos" user: passwd
-      # # Look in Makefile for an example init command once you have a root password and ip/hostname
-      disko = {
-        enableConfig = true;
-        # Find main drive's disk name --------------------\/\/\/\/\/\/
-        devices = (import ../../disks/root.nix { disk = "/dev/nvme0n1"; });
-      };
+      # # Boot from a usb
+      # # Set password for "nixos" user: passwd
+      # # # Look in Makefile for an example init command once you have a root password and ip/hostname
+      # disko = {
+      #   enableConfig = true;
+      #   # Find main drive's disk name --------------------\/\/\/\/\/\/
+      #   devices = (import ../../disks/root.nix { disk = "/dev/nvme0n1"; });
+      # };
 
       time.timeZone = "America/New_York";
       # A key of sorts
