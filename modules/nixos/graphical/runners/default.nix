@@ -26,7 +26,7 @@ in
   config = mkIf (cfg.enable && config.graphical.hyprland.enable) {
     home-manager.users.${config.user} = {
       home.packages = with pkgs; [
-        rofi-wayland
+        rofi
       ];
     };
   };

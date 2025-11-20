@@ -174,7 +174,7 @@ in {
             animation = windows,1,4,overshot,slide
             animation = border,1,10,default
             animation = fade,1,10,default
-            animation = workspaces,1,6,overshot,slidevert
+            animation = workspaces,1,6,overshot,slide
           }
 
           dwindle {
@@ -188,10 +188,9 @@ in {
             # new_is_master = true
           }
 
-          gestures {
-            # See https://wiki.hyprland.org/Configuring/Variables/ for more
-            workspace_swipe = ${if (config.laptop) then "on" else "off"}
-          }
+          ${if (config.laptop) then ''
+          gesture = 3, horizontal, workspace
+          '' else ""}
 
           windowrulev2 = suppressevent maximize, class:.* # You'll probably like this.
 

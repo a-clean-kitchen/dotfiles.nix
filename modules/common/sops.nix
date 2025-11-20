@@ -25,7 +25,10 @@ in
       defaultSopsFile = "${cfg.sopsFolder}/${config.networking.hostName}.host.yaml";
       age = {
         # automatically import host SSH keys as age keys
-        sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
+        sshKeyPaths = [
+          "/etc/ssh/ssh_host_ed25519_key"
+          "/etc/ssh/ssh_host_ed25519_key.temp"
+        ];
       };
       secrets = {
         "keys/private" = {

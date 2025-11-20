@@ -17,7 +17,7 @@ agenix-shell:
 .PHONY: init-machine
 
 init-machine:
-	SSHPASS=temppass nix run github:nix-community/nixos-anywhere -- --env-password --generate-hardware-config nixos-generate-config ./hosts/Kanna/hardware-configuration.nix --disk-encryption-keys "/tmp/luks.secret.key" "/tmp/luks.secret.key" --flake .#kanna -L --build-on local --target-host root@192.168.1.133
+	SSHPASS=temppass nix run github:nix-community/nixos-anywhere -- --env-password --generate-hardware-config nixos-generate-config ./hosts/Kanna/hardware-configuration.nix --disk-encryption-keys "/tmp/luks.secret.key" "/tmp/luks.secret.key" --flake .#kanna -L --target-host root@192.168.1.133
 
 # LUKS SETUP
 .PHONY: luks-init-machine

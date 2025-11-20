@@ -11,7 +11,7 @@ in {
       enable = true;
       settings = {
           default_session = {
-            command = "${pkgs.greetd.tuigreet}/bin/tuigreet -w 40 -t --cmd Hyprland";
+            command = "${pkgs.tuigreet}/bin/tuigreet -w 40 -t --cmd Hyprland";
           };
         };
     };
